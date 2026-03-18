@@ -1,19 +1,53 @@
-import { Button } from "@/components/ui/button"
+import About from "@/components/About"
+import CardScroll3D from "@/components/CardScroll3D"
+import ContactSection from "@/components/ContactSection"
+import FaqSection from "@/components/FaqSection"
+import HeroSection from "@/components/HeroSection"
+import MirrorScroll3D from "@/components/MirrorScroll3D"
+import Scroll3DSection from "@/components/Scroll3DSection"
+import ServicesSection from "@/components/ServicesSection"
+import ThreeScene from "@/components/ThreeScene"
+import WorkProfessional from "@/components/WorkProfessional"
 
 export default function Page() {
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
+    <>
+      {/* top spacing from the navbar */}
+      <div className="h-20 w-screen"></div>
+      {/* hero section */}
+      <HeroSection compnent={<ThreeScene />} />
+      <HeroSection
+        compnent={
+          <div className="h-screen overflow-hidden">
+            <CardScroll3D />
+          </div>
+        }
+      />
+      {/* About section  */}
+      <div className="container">
+        <div className="my-50 flex h-screen w-screen items-center justify-center">
+          <About />
         </div>
       </div>
-    </div>
+      {/* Services  */}
+      <ServicesSection />
+      {/* animation section */}
+      <div className="container">
+        <div className="flex h-screen w-screen items-center justify-center overflow-hidden">
+          <Scroll3DSection Component={MirrorScroll3D} />
+        </div>
+      </div>
+      {/* WorkProfessional */}
+      <WorkProfessional />
+      {/* FAQ Section */}
+      <div className="">
+        <FaqSection />
+      </div>
+
+      {/* Contact section */}
+      <ContactSection />
+
+
+      </>
   )
 }
