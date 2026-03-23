@@ -142,6 +142,7 @@ export const Footer: React.FC = () => {
                     alt="Logo"
                     width={110}
                     height={28}
+                    // style={{ width: "110px", height: "auto" }}
                     className="object-contain"
                   />
                 </Link>

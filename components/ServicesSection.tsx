@@ -85,7 +85,8 @@ export default function ServicesSection() {
 
                 {/* Title */}
                 <h3 className="text-lg font-semibold">
-                    <Link href={`/services/${service.title.toLowerCase().replace(/\s+/g, "-")}`}>
+                    {/* <Link href={`/services/${service.title.toLowerCase().replace(/\s+/g, "-")}`}> */}
+                    <Link href='/'>
                   {service.title}
                     </Link>
                 </h3>

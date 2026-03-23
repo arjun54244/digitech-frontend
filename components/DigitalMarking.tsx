@@ -11,14 +11,14 @@ function Model(props: any) {
 
 useGLTF.preload("/models/digital-marking-obj.glb")
 
-export function DigitalMarking({
+function DigitalMarking({
   className,
 }: {
   className?: string
 }) {
   return (
     <div className={className}>
-      <Canvas camera={{ position: [0, 1, 4], fov: 45 }} onWheel={(e) => e.stopPropagation()}>
+      <Canvas dpr={[1, 1.5]}  frameloop="demand" camera={{ position: [0, 1, 4], fov: 45 }} onWheel={(e) => e.stopPropagation()}>
         <ambientLight intensity={1} />
         <directionalLight position={[5, 5, 5]} intensity={1.2} />
 
@@ -26,8 +26,15 @@ export function DigitalMarking({
           <Model scale={2.9} position={[0, 0, 0]} />
         </Suspense>
 
-        <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={2} />
+        <OrbitControls  enableZoom={false}
+        enablePan={false}
+        enableDamping={false}
+        autoRotate
+        autoRotateSpeed={1.5}
+        />
       </Canvas>
     </div>
   )
 }
+
+export default DigitalMarking;

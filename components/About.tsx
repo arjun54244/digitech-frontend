@@ -5,9 +5,14 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Activity, HeartPulse, Stethoscope, Users } from "lucide-react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import MirrorScroll3D from "./MirrorScroll3D"
 import CardScroll3D from "./CardScroll3D"
-import { DigitalMarking } from "./DigitalMarking"
+import dynamic from "next/dynamic"
+const DigitalMarking = dynamic(() => import("./DigitalMarking"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-[400px] w-full animate-pulse rounded-2xl bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-800 dark:to-gray-700" />
+  ),
+})
 
 gsap.registerPlugin(ScrollTrigger)
 

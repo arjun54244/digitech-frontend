@@ -7,10 +7,14 @@ import { easing } from 'maath'
 
 const MirrorScroll3D = ({ active }: { active: boolean }) => {
   return (
-    <Canvas camera={{ position: [0, 0, 20], fov: 15 }} 
-    onWheel={(e) => {
-      if (active) e.stopPropagation()
-    }}
+    <Canvas 
+  onWheel={(e) => active && e.stopPropagation()}
+  onPointerDown={(e) => active && e.stopPropagation()}
+  onPointerMove={(e) => active && e.stopPropagation()}
+  onTouchStart={(e) => active && e.stopPropagation()}
+  onTouchMove={(e) => active && e.stopPropagation()}
+    frameloop="demand"
+        dpr={[1, 1.5]} camera={{ position: [0, 0, 20], fov: 15 }} 
     >
       <ScrollControls damping={0.2} pages={3} distance={0.5}>
         <Lens>
@@ -96,13 +100,66 @@ function Images() {
 
 function Typography() {
   const state = useThree()
-  const { width, height } = state.viewport.getCurrentViewport(state.camera, [0, 0, 12])
-  const shared = { font: '/MirrorScroll3D/Inter-Regular.woff', letterSpacing: -0.1, color: 'black' }
+
+  const { width, height } = state.viewport.getCurrentViewport(
+    state.camera,
+    [0, 0, 12]
+  )
+
+  // ✅ Responsive scale factor
+  const scale = width < 6 ? 0.7 : width < 10 ? 0.85 : 1
+
+  const shared = {
+    font: "/MirrorScroll3D/Inter-Regular.woff",
+    letterSpacing: -0.05,
+  }
+
   return (
     <>
-      <Text children="to" anchorX="left" position={[-width / 2.5, -height / 10, 12]} {...shared} />
-      <Text children="be" anchorX="right" position={[width / 2.5, -height * 2, 12]} {...shared} />
-      <Text children="home" position={[0, -height * 4.624, 12]} {...shared} />
+      {/* Grow */}
+      <Text
+        position={[-width / 2.2, -height / 6, 12]}
+        anchorX="left"
+        fontSize={0.25 * scale}
+        color="#ff8c42"
+        {...shared}
+      >
+        Grow
+      </Text>
+
+      {/* Your Brand */}
+      <Text
+        position={[width / 2.2, -height * 1.6, 12]}
+        anchorX="right"
+        fontSize={0.25 * scale}
+        color="#111"
+        {...shared}
+      >
+        Your Brand
+      </Text>
+
+      {/* DigiTech (Main Heading) */}
+      <Text
+        position={[0, -height * 3.2, 12]}
+        fontSize={0.41 * scale}
+        maxWidth={width * 0.8}
+        color="#ff8c42"
+        {...shared}
+      >
+        DigiTech
+      </Text>
+
+      {/* Tagline */}
+      <Text
+        position={[0, -height * 4.6, 12]}
+        fontSize={0.28 * scale}
+        color="#cddce1"
+        maxWidth={width * 0.8} // ✅ wrap text on mobile
+        textAlign="center"
+        {...shared}
+      >
+        Digital Marketing That Converts
+      </Text>
     </>
   )
 }

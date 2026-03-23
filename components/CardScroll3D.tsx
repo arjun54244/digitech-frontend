@@ -20,7 +20,9 @@ type Props = {
 export default function CardScroll3D({ className }: Props) {
   return (
     <Canvas
-      camera={{ position: [0, 0, 100], fov: 15 }}
+     dpr={[1, 1.5]}
+  frameloop="demand"
+      camera={{ position: [0, 1, 50], fov: 20 }}
       className={className}
       onWheel={(e) => e.stopPropagation()}
       style={{ background: "#aa7" }}
@@ -66,7 +68,7 @@ function Rig(props: ThreeElements["group"]) {
 
 /* ---------------- Carousel ---------------- */
 
-function Carousel({ radius = 1.4, count = 4 }) {
+function Carousel({ radius = 1.4, count = 8 }) {
   return (
     <>
       {Array.from({ length: count }, (_, i) => (

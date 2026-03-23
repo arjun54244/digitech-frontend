@@ -13,7 +13,11 @@ function AvatarModel() {
 
 export default function Avatar() {
   return (
-    <Canvas camera={{ position: [0, 1.6, 4.2] }}>
+    <Canvas
+      dpr={[1, 1.5]}
+      frameloop="demand"
+      camera={{ position: [0, 1, 4], fov: 45 }}
+    >
       <ambientLight intensity={1} />
       <AvatarModel />
     </Canvas>

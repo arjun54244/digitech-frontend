@@ -11,9 +11,14 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import dynamic from "next/dynamic"
 
-import ThreeModelViewer from "@/components/ThreeModelViewer"
-
+const ThreeModelViewer = dynamic(() => import("@/components/ThreeModelViewer"), {
+  ssr: false,
+   loading: () => (
+    <div className="h-[420px] w-full animate-pulse rounded-2xl bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-800 dark:to-gray-700" />
+  ),
+})
 const faqs = [
   {
     q: "How long does it take to build a website?",

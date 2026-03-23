@@ -1,64 +1,31 @@
-
 "use client"
 
-import React, { Suspense, useRef } from "react"
-import { Canvas, useFrame, useThree } from "@react-three/fiber"
+import React, { Suspense, useRef, useMemo } from "react"
+import { Canvas } from "@react-three/fiber"
 import { OrbitControls, useGLTF } from "@react-three/drei"
 import * as THREE from "three"
 
-type ModelProps = {
-  modelPath: string
-  scale?: number | [number, number, number]
-  position?: [number, number, number]
-  rotation?: [number, number, number]
-  autoRotate?: boolean
-  className?: string
-}
-
-function Model({
+const Model = React.memo(function Model({
   modelPath,
   scale = 1,
   position = [0, 0, 0],
   rotation = [0, 0, 0],
-  autoRotate = true,
-  className
-}: ModelProps) {
+}: any) {
   const { scene } = useGLTF(modelPath)
   const ref = useRef<THREE.Group>(null!)
-  const { pointer } = useThree()
 
-  useFrame(() => {
-    if (!ref.current) return
-
-    // Smooth rotation toward cursor
-    ref.current.rotation.y = THREE.MathUtils.lerp(
-      ref.current.rotation.y,
-      pointer.x * 0.5,
-      0.05
-    )
-
-    ref.current.rotation.x = THREE.MathUtils.lerp(
-      ref.current.rotation.x,
-      -pointer.y * 0.3,
-      0.05
-    )
-  })
+  const clonedScene = useMemo(() => scene.clone(), [scene])
 
   return (
     <primitive
       ref={ref}
-      object={scene}
+      object={clonedScene}
       scale={scale}
       position={position}
       rotation={rotation}
     />
   )
-}
-
-type ViewerProps = ModelProps & {
-  autoRotate?: boolean
-  className?: string
-}
+})
 
 export default function ThreeModelViewer({
   modelPath,
@@ -67,12 +34,16 @@ export default function ThreeModelViewer({
   rotation = [0, 0, 0],
   autoRotate = true,
   className,
-}: ViewerProps) {
+}: any) {
   return (
     <div className={className}>
-      <Canvas camera={{ position: [0, 1, 4], fov: 45 }}>
-        <ambientLight intensity={1} />
-        <directionalLight position={[5, 5, 5]} intensity={1.2} />
+      <Canvas
+        frameloop="demand"
+        dpr={[1, 1.5]}
+        camera={{ position: [0, 1, 4], fov: 45 }}
+      >
+        <ambientLight intensity={0.8} />
+        <directionalLight position={[3, 3, 3]} intensity={1} />
 
         <Suspense fallback={null}>
           <Model
@@ -83,7 +54,13 @@ export default function ThreeModelViewer({
           />
         </Suspense>
 
-        <OrbitControls enableZoom={false} autoRotate={autoRotate} autoRotateSpeed={2} />
+        <OrbitControls
+          enableZoom={false}
+          enablePan={false}
+          enableDamping={false}
+          autoRotate={autoRotate}
+          autoRotateSpeed={1.5}
+        />
       </Canvas>
     </div>
   )

@@ -2,8 +2,13 @@
 
 import dynamic from "next/dynamic"
 
-const ThreeScene = dynamic(() => import("./ThreeScene"), {
-  ssr: false
+export const LazyThreeScene = dynamic(() => import('./ThreeScene'), {
+  ssr: false, // disable server-side rendering
+  loading: () => (
+    <div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      Loading 3D scene…
+    </div>
+  ),
 })
 
 export default function HeroSection({compnent}: {compnent?: React.ReactNode}) {
@@ -49,7 +54,7 @@ export default function HeroSection({compnent}: {compnent?: React.ReactNode}) {
 
         {/* RIGHT 3D SECTION */}
         <div className="w-full h-[550px] rounded-xl">
-          {compnent ? compnent : <ThreeScene />}
+          {compnent ? compnent : <LazyThreeScene />}
         </div>
 
       </div>
