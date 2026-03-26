@@ -51,7 +51,6 @@ const FeacherSection = () => {
   return (
     <>
       <div ref={ref} className="relative max-md:pb-[100px] md:pb-[140px]">
-        
         {/* shapes */}
         <div className="animate-rotate2 absolute right-[36%] bottom-[37%] -z-10 max-lg:top-[-5%] max-lg:left-[22%]">
           <img src="assets/img/counter/counter-shape-2.webp" alt="" />
@@ -68,8 +67,7 @@ const FeacherSection = () => {
         <div className="mx-auto max-w-[1200px] px-[15px]">
           <div className="relative rounded-[100px] border border-white/100 bg-white/5 shadow-[0px_20px_80px_rgba(7,13,32,0.08)] backdrop-blur-[5px]">
             <div className="grid grid-cols-12 gap-0">
-
-              {/* Team Members */}
+              {/* Experts / Team */}
               <div className="col-span-12 md:col-span-4">
                 <div className="flex justify-center border-r border-[#EDEFF5] py-[40px] max-md:border-none">
                   <div>
@@ -80,13 +78,13 @@ const FeacherSection = () => {
                       +
                     </h2>
                     <p className="font-urban mt-0 leading-[20px] font-medium tracking-[0.04em] max-sm:text-[16px] sm:text-[18px]">
-                      Team Members
+                      Digital Growth Experts
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Funding */}
+              {/* Clients Served */}
               <div className="col-span-12 md:col-span-4">
                 <div className="flex justify-center border-r border-[#EDEFF5] py-[40px] max-md:border-none">
                   <div>
@@ -95,18 +93,17 @@ const FeacherSection = () => {
                         {funding}
                       </span>
                       <em className="font-dm text-[60px] leading-[50px] font-normal italic">
-                        m
+                        +
                       </em>
-                      +
                     </h2>
                     <p className="font-urban mt-0 leading-[20px] font-medium tracking-[0.04em] max-sm:text-[16px] sm:text-[18px]">
-                      Total funding
+                      Businesses Served
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Users */}
+              {/* Reach / Growth */}
               <div className="col-span-12 md:col-span-4">
                 <div className="flex justify-center py-[40px]">
                   <div>
@@ -115,16 +112,15 @@ const FeacherSection = () => {
                         {users}
                       </span>
                       <em className="font-dm text-[60px] leading-[50px] font-normal italic">
-                        k
+                        k+
                       </em>
                     </h2>
                     <p className="font-urban mt-0 leading-[20px] font-medium tracking-[0.04em] max-sm:text-[16px] sm:text-[18px]">
-                      Total active user base
+                      Monthly Audience Reach
                     </p>
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>

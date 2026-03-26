@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
 import { Footer } from "@/components/Footer"
 import { Navbar } from "@/components/Navbar"
+import { QueryProvider } from "@/components/providers/query-provider"
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -34,11 +35,13 @@ export default function RootLayout({
       )}
     >
       <body>
-        <ThemeProvider>
-          <Navbar />
-          {children}
-          <Footer />
-        </ThemeProvider>
+        <QueryProvider>
+          <ThemeProvider>
+            <Navbar />
+            {children}
+            <Footer />
+          </ThemeProvider>
+        </QueryProvider>
       </body>
     </html>
   )

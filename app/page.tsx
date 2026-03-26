@@ -7,7 +7,9 @@ import HeroSection from "@/components/HeroSection"
 import Scroll3DSectionClinet from "@/components/Scroll3DSectionClinet"
 import ServicesSection from "@/components/ServicesSection"
 import WorkProfessional from "@/components/WorkProfessional"
+import { siteMetadata } from "@/lib/data/metadata"
 
+export const metadata = siteMetadata.home
 export default function Page() {
   return (
     <>

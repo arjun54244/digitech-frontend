@@ -1,8 +1,11 @@
 import FeacherSection from "@/components/FeacherSection"
 import PaymentMethod from "@/components/PaymentMethod"
+import { siteMetadata } from "@/lib/data/metadata"
 import { DotLottieReact } from "@lottiefiles/dotlottie-react"
 import { PlayCircle } from "lucide-react"
 import React from "react"
+
+export const metadata = siteMetadata.about
 
 const about = () => {
   return (
@@ -12,37 +15,49 @@ const about = () => {
           {/* ab-company-area  */}
           <div className="pt-[105px]">
             <div className="mx-auto max-w-[1200px] px-[15px]">
-              {/* Top Section  */}
+              {/* Top Section */}
               <div className="grid grid-cols-12 gap-x-[30px] max-md:mb-[35px] md:mb-[45px] lg:mb-[45px] xl:mb-[95px]">
+                {/* LEFT */}
                 <div className="col-span-12 xl:col-span-6">
-                  <h4 className="text-orange-500 mb-[8px] inline-block rounded-[30px] bg-[rgba(89,86,233,0.05)] px-[17px] py-[10px] text-[13px] leading-[14px] font-semibold uppercase">
-                    ABOUT THE COMPANY
+                  <h4 className="mb-[8px] inline-block rounded-[30px] bg-[rgba(255,140,66,0.08)] px-[17px] py-[10px] text-[13px] leading-[14px] font-semibold tracking-wider text-orange-500 uppercase">
+                    ABOUT DIGITECH
                   </h4>
+
                   <h3 className="mb-3 leading-[1.2] font-bold sm:text-[33px] md:text-[40px] xl:text-[50px]">
-                    Softuch is Made <br /> For the Creator.
+                    We Grow{" "}
+                    <span className="text-orange-500">Healthcare Brands</span>{" "}
+                    <br />
+                    With Digital Excellence
                   </h3>
                 </div>
-                <div
-                  className="wow fadeInRight col-span-12 xl:col-span-6"
-                  data-wow-duration=".9s"
-                  data-wow-delay=".5s"
-                >
+
+                {/* RIGHT */}
+                <div className="col-span-12 xl:col-span-6">
                   <div>
                     <p className="pb-[25px] leading-[26px] font-normal text-[#5F6168] lg:text-[16px] xl:text-[17px]">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Rutrum arcu sollicitudin viverra sit elit leo in. Vitae eu
-                      tellus mattis quis. Eu, tempus donec nam mauris egestas.
-                      Id aliquet ultricies ligula tellus arcu dolor. Massa arcu
-                      pulvinar in mattis
+                      At <strong>DigiTech Healthcare</strong>, we specialize in
+                      helping hospitals, clinics, and doctors build a strong
+                      digital presence and attract high-quality patients. Our
+                      data-driven strategies ensure measurable growth and
+                      consistent lead generation.
                     </p>
+
                     <p className="pb-[25px] leading-[26px] font-normal text-[#5F6168] lg:text-[16px] xl:text-[17px]">
-                      Feugiat purus congue risus, blandit a sed. In aenean quam
-                      aenean purus dictum pellentesque consequat.!
+                      From <strong>SEO and Social Media Marketing</strong> to
+                      <strong>
+                        {" "}
+                        Performance Ads and Reputation Management
+                      </strong>
+                      , we create customized solutions tailored to the
+                      healthcare industry.
                     </p>
+
                     <p className="leading-[26px] font-normal text-[#5F6168] lg:text-[16px] xl:text-[17px]">
-                      <span className="xs:text-[18px] text-[20px] leading-[28px] font-normal text-[#202124]">
-                        Our clean and simple APIs and transparent SaaS model
-                        will give you complete peace of mind.
+                      <span className="xs:text-[18px] text-[20px] leading-[28px] font-medium text-[#202124]">
+                        Trusted by{" "}
+                        <strong>1500+ healthcare professionals</strong> across
+                        India, we focus on delivering real results — more
+                        visibility, more trust, and more patients.
                       </span>
                     </p>
                   </div>
@@ -88,11 +103,6 @@ const about = () => {
 
                   {/* Sub Image 2 */}
                   <div className="animate-tptranslate_X absolute hidden max-lg:top-[-24%] max-lg:left-[5%] max-md:pt-[80px] sm:block lg:top-[-35%] lg:left-0 xl:top-[-24%] xl:left-[5%]">
-                    {/* <img
-                      src="assets/img/about/about-3.webp"
-                      alt=""
-                      className="rounded-[20px] shadow-[10px_40px_40px_rgba(1,16,61,0.06),_-20px_-20px_120px_rgba(1,16,61,0.12)]"
-                    /> */}
                     <DotLottieReact
                       src="https://lottie.host/62970deb-02a0-4a8f-b290-c56d90b533b3/eR6gzBSmt8.lottie"
                       className="rounded-[20px] shadow-[10px_40px_40px_rgba(1,16,61,0.06),_-20px_-20px_120px_rgba(1,16,61,0.12)]"
@@ -118,31 +128,38 @@ const about = () => {
                 >
                   <div className="pb-[20px]">
                     <h4 className="text-blue mb-[8px] inline-block rounded-[30px] bg-[rgba(89,86,233,0.05)] px-[17px] py-[10px] text-[13px] leading-[14px] font-semibold uppercase">
-                      OVER 150K+ CLIENT
+                      Trusted by 1500+ Healthcare Clients
                     </h4>
+
                     <h2 className="mb-4 leading-[1.2] font-bold sm:text-[33px] md:text-[40px] xl:text-[50px]">
-                      We Offer Real Time Data Solutions
+                      We Deliver High-Converting Digital Marketing Solutions
                     </h2>
+
                     <p className="mb-[15px] text-[18px] leading-[28px]">
-                      Excepteur sint occaecat cupidatat officia non proident{" "}
+                      DigiTech helps hospitals, clinics, and brands grow faster
+                      online
                       <br className="max-xl:hidden xl:block" />
-                      sunt in culpa qui deserunt.!
+                      with data-driven strategies and performance marketing.
                     </p>
                   </div>
+
                   {/* List */}
                   <div className="pb-[45px]">
                     <ul>
                       <li className="relative mb-[30px] pl-[30px] text-[16px] leading-[1.1] font-medium text-black last:mb-0">
                         <i className="fal fa-check bg-red absolute top-0 left-0 h-[20px] w-[20px] rounded-full text-center text-[8px] leading-[20px!important] text-white"></i>
-                        Various analysis options.
+                        SEO & Google ranking strategies for healthcare growth.
                       </li>
+
                       <li className="relative mb-[30px] pl-[30px] text-[16px] leading-[1.1] font-medium text-black last:mb-0">
                         <i className="fal fa-check bg-red absolute top-0 left-0 h-[20px] w-[20px] rounded-full text-center text-[8px] leading-[20px!important] text-white"></i>
-                        Page Load (time, size, number of requests).
+                        High-performance ads (Google & Meta) to generate quality
+                        leads.
                       </li>
+
                       <li className="relative pl-[30px] text-[16px] leading-[1.1] font-medium text-black">
                         <i className="fal fa-check bg-red absolute top-0 left-0 h-[20px] w-[20px] rounded-full text-center text-[8px] leading-[20px!important] text-white"></i>
-                        Big data analysis.
+                        Website & funnel optimization to maximize conversions.
                       </li>
                     </ul>
                   </div>
@@ -150,11 +167,11 @@ const about = () => {
                   {/* Button */}
                   <div>
                     <a
-                      href="about.html"
+                      href="/about"
                       className="tp-btn-hover group bg-blue relative z-[2] hidden h-[45px] overflow-hidden rounded-[30px] px-[35px] text-center text-[15px] leading-[45px] font-semibold text-white capitalize transition-colors duration-500 ease-in-out md:inline-block"
                     >
                       <span className="relative z-[5] transition-all delay-100 duration-500 group-hover:text-white">
-                        About Us
+                        About Digitech
                       </span>
                       <b className="absolute top-1/2 left-1/2 z-[1] h-0 w-0 -translate-x-1/2 -translate-y-1/2 transform rounded-full bg-black transition-all duration-[700ms] ease-[ease] group-hover:h-[400px] group-hover:w-[400px]"></b>
                     </a>
@@ -180,12 +197,14 @@ const about = () => {
               <div className="mb-[60px] grid grid-cols-12 items-center">
                 <div className="col-span-12 max-md:pb-[40px] lg:col-span-6">
                   <h3 className="xxl:text-[60px] font-mont leading-[1.1] font-semibold tracking-[-0.04em] max-md:text-[32px] md:text-[40px] xl:text-[55px]">
-                    We provide the
-                    <br className="max-md:hidden" /> best service for you
+                    We deliver
+                    <br className="max-md:hidden" /> powerful healthcare
+                    marketing
                   </h3>
                   <p className="mt-[27px] text-gray-100 md:text-[16px] lg:text-[18px]">
                     {" "}
-                    We've got all your payments covered
+                    Helping hospitals, clinics & doctors grow faster with
+                    digital strategies
                   </p>
                 </div>
                 {/* Stats */}
@@ -230,26 +249,26 @@ const about = () => {
                     </div>
                     <div className="max-md:pr-[20px] md:mt-[50px] md:pr-[65px] md:pl-0 lg:mt-0 lg:pr-0 lg:pl-[40px] xl:pl-[65px]">
                       <span className="font-mont inline-block pb-1 text-[40px] leading-none font-semibold text-black">
-                        3.5<i className="not-italic">m</i>
+                        500<i className="not-italic">K</i>
                       </span>
                       <p className="font-medium max-sm:text-[10px] sm:text-[14px]">
-                        Active Users
+                        Monthly Audience Reach
                       </p>
                     </div>
                     <div className="max-md:pr-[20px] md:mt-[50px] md:pr-[65px] md:pl-0 lg:mt-0 lg:pr-0 lg:pl-[40px] xl:pl-[65px]">
                       <span className="font-mont inline-block pb-1 text-[40px] leading-none font-semibold text-black">
-                        240<i className="not-italic">+</i>
+                        1500<i className="not-italic">+</i>
                       </span>
                       <p className="font-medium max-sm:text-[10px] sm:text-[14px]">
-                        Trusted Companies
+                        Businesses Served
                       </p>
                     </div>
                     <div className="max-md:pr-[20px] md:mt-[50px] md:pr-[65px] md:pl-0 lg:mt-0 lg:pr-0 lg:pl-[40px] xl:pl-[65px]">
                       <span className="font-mont inline-block pb-1 text-[40px] leading-none font-semibold text-black">
-                        78<i className="not-italic">k</i>
+                        4<i className="not-italic">X</i>
                       </span>
                       <p className="font-medium max-sm:text-[10px] sm:text-[14px]">
-                        Customer care
+                        Average ROI Growth
                       </p>
                     </div>
                   </div>
@@ -275,14 +294,14 @@ const about = () => {
                     </div>
                     <div className="translate-y-[41px] transition-all duration-300 group-hover:translate-y-[12px]">
                       <h4 className="font-mont mb-1 text-[22px] font-semibold">
-                        Online
+                        SEO Optimization
                       </h4>
                       <a
                         href="service-details.webp"
                         className="font-mont invisible inline-flex items-center gap-2 text-[16px] font-semibold text-black opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100 hover:text-primary"
                       >
                         {" "}
-                        Explore{" "}
+                        Rank your clinic on Google{" "}
                         <i className="far fa-arrow-right relative top-[2px]"></i>
                       </a>
                     </div>
@@ -302,14 +321,15 @@ const about = () => {
                     </div>
                     <div className="translate-y-[41px] transition-all duration-300 group-hover:translate-y-[12px]">
                       <h4 className="font-mont mb-1 text-[22px] font-semibold">
-                        Bank Transfers
+                        Social Media Marketing
                       </h4>
                       <a
                         href="service-details.webp"
                         className="font-mont invisible inline-flex items-center gap-2 text-[16px] font-semibold text-black opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100 hover:text-primary"
                       >
                         {" "}
-                        Explore <i className="far fa-arrow-right"></i>
+                        Build trust & engagement
+                        <i className="far fa-arrow-right"></i>
                       </a>
                     </div>
                   </div>
@@ -328,14 +348,15 @@ const about = () => {
                     </div>
                     <div className="translate-y-[41px] transition-all duration-300 group-hover:translate-y-[12px]">
                       <h4 className="font-mont mb-1 text-[22px] font-semibold">
-                        Keyed
+                        Performance Ads
                       </h4>
                       <a
                         href="service-details.webp"
                         className="font-mont invisible inline-flex items-center gap-2 text-[16px] font-semibold text-black opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100 hover:text-primary"
                       >
                         {" "}
-                        Explore <i className="far fa-arrow-right"></i>
+                        Get more patient leads{" "}
+                        <i className="far fa-arrow-right"></i>
                       </a>
                     </div>
                   </div>
@@ -354,14 +375,15 @@ const about = () => {
                     </div>
                     <div className="translate-y-[41px] transition-all duration-300 group-hover:translate-y-[12px]">
                       <h4 className="font-mont mb-1 text-[22px] font-semibold">
-                        In-Person
+                        Website Development
                       </h4>
                       <a
                         href="service-details.webp"
                         className="font-mont invisible inline-flex items-center gap-2 text-[16px] font-semibold text-black opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100 hover:text-primary"
                       >
                         {" "}
-                        Explore <i className="far fa-arrow-right"></i>
+                        Modern & conversion focused{" "}
+                        <i className="far fa-arrow-right"></i>
                       </a>
                     </div>
                   </div>
@@ -378,56 +400,52 @@ const about = () => {
                   <div className="rounded-[30px] bg-gradient-to-br from-[#FFF7F1] to-[#FAE9EF] max-lg:p-[20px] lg:p-[50px_60px]">
                     <h4 className="font-mont pb-[28px] text-[24px] font-semibold">
                       {" "}
-                      More free tools than you can handle
+                      Complete Digital Growth Toolkit
                     </h4>
                     <ul className="flex flex-wrap">
                       <li className="relative pl-3 text-[15px] leading-[30px] font-medium text-black before:absolute before:top-[14px] before:left-0 before:h-1 before:w-1 before:rounded-full before:bg-black max-md:w-1/2 max-sm:w-full md:w-1/4">
                         {" "}
-                        Invoicing
+                        Google Ads Campaigns
                       </li>
                       <li className="relative pl-3 text-[15px] leading-[30px] font-medium text-black before:absolute before:top-[14px] before:left-0 before:h-1 before:w-1 before:rounded-full before:bg-black max-md:w-1/2 max-sm:w-full md:w-1/4">
                         {" "}
-                        Online Checkout
+                        SEO for All Businesses
                       </li>
                       <li className="relative pl-3 text-[15px] leading-[30px] font-medium text-black before:absolute before:top-[14px] before:left-0 before:h-1 before:w-1 before:rounded-full before:bg-black max-md:w-1/2 max-sm:w-full md:w-1/4">
                         {" "}
-                        Point-of-Sale
+                        Social Media Management
                       </li>
                       <li className="relative pl-3 text-[15px] leading-[30px] font-medium text-black before:absolute before:top-[14px] before:left-0 before:h-1 before:w-1 before:rounded-full before:bg-black max-md:w-1/2 max-sm:w-full md:w-1/4">
                         {" "}
-                        Online Food Ordering
+                        Website Design
                       </li>
                       <li className="relative pl-3 text-[15px] leading-[30px] font-medium text-black before:absolute before:top-[14px] before:left-0 before:h-1 before:w-1 before:rounded-full before:bg-black max-md:w-1/2 max-sm:w-full md:w-1/4">
                         {" "}
-                        ICard Vault
+                        ORM (Reputation Management)
                       </li>
                       <li className="relative pl-3 text-[15px] leading-[30px] font-medium text-black before:absolute before:top-[14px] before:left-0 before:h-1 before:w-1 before:rounded-full before:bg-black max-md:w-1/2 max-sm:w-full md:w-1/4">
                         {" "}
-                        Customer Portal
+                        Content Marketing
                       </li>
                       <li className="relative pl-3 text-[15px] leading-[30px] font-medium text-black before:absolute before:top-[14px] before:left-0 before:h-1 before:w-1 before:rounded-full before:bg-black max-md:w-1/2 max-sm:w-full md:w-1/4">
                         {" "}
-                        Inventory
+                        WhatsApp Marketing
                       </li>
                       <li className="relative pl-3 text-[15px] leading-[30px] font-medium text-black before:absolute before:top-[14px] before:left-0 before:h-1 before:w-1 before:rounded-full before:bg-black max-md:w-1/2 max-sm:w-full md:w-1/4">
                         {" "}
-                        Virtual Terminal
+                        Video Marketing
                       </li>
                       <li className="relative pl-3 text-[15px] leading-[30px] font-medium text-black before:absolute before:top-[14px] before:left-0 before:h-1 before:w-1 before:rounded-full before:bg-black max-md:w-1/2 max-sm:w-full md:w-1/4">
                         {" "}
-                        Recurring Plans
+                        Lead Generation
                       </li>
                       <li className="relative pl-3 text-[15px] leading-[30px] font-medium text-black before:absolute before:top-[14px] before:left-0 before:h-1 before:w-1 before:rounded-full before:bg-black max-md:w-1/2 max-sm:w-full md:w-1/4">
                         {" "}
-                        Payment Links
+                        Branding Strategy
                       </li>
                       <li className="relative pl-3 text-[15px] leading-[30px] font-medium text-black before:absolute before:top-[14px] before:left-0 before:h-1 before:w-1 before:rounded-full before:bg-black max-md:w-1/2 max-sm:w-full md:w-1/4">
                         {" "}
-                        SMS Payments
-                      </li>
-                      <li className="relative pl-3 text-[15px] leading-[30px] font-medium text-black before:absolute before:top-[14px] before:left-0 before:h-1 before:w-1 before:rounded-full before:bg-black max-md:w-1/2 max-sm:w-full md:w-1/4">
-                        {" "}
-                        QR Codes
+                        Analytics & Reporting
                       </li>
                     </ul>
                   </div>
@@ -441,6 +459,7 @@ const about = () => {
           <div className="pb-[120px]">
             <div className="mx-auto max-w-[1200px] px-[15px]">
               <div className="grid grid-cols-12 items-center gap-[30px]">
+                {/* Image Section (unchanged) */}
                 <div className="col-span-12 lg:col-span-6">
                   <div
                     className="wow fadeInLeft relative text-center"
@@ -462,52 +481,61 @@ const about = () => {
                     </div>
                   </div>
                 </div>
+
+                {/* Content Section */}
                 <div className="col-span-12 lg:col-span-6">
                   <div className="max-xl:pr-0 max-lg:mt-[40px] max-lg:pl-0 lg:pl-[40px] xl:pr-[60px]">
                     <div className="mb-[40px]">
                       <h4 className="font-mont mb-2 inline-block border-b-2 border-[#aee87c] text-[16px] leading-5 font-medium text-black">
-                        Open An Account
+                        GET STARTED WITH DIGITECH
                       </h4>
                       <h3 className="xxl:text-[60px] font-mont leading-[1.1] font-semibold tracking-[-0.04em] max-md:text-[32px] md:text-[40px] xl:text-[55px]">
-                        Let’s get started
+                        Let’s grow your business online
                       </h3>
                     </div>
+
+                    {/* Steps */}
                     <div className="mb-[50px]">
                       <div className="mb-[27px] flex items-center border-b border-border pb-[29px]">
-                        <span className="max-sm:mr-20px mr-[35px] min-w-[40px] text-3xl font-medium text-black">
+                        <span className="mr-[35px] min-w-[40px] text-3xl font-medium text-black">
                           01
                         </span>
-                        <p className="xxl:text-[20px] font-mont font-medium text-black max-xl:text-[18px] max-sm:text-[17px] max-sm:leading-[23px] sm:leading-7 xl:text-[19px]">
-                          Sign up in a few minutes
+                        <p className="font-mont font-medium text-black xl:text-[19px]">
+                          Share your business goals and requirements
                         </p>
                       </div>
+
                       <div className="mb-[27px] flex items-center border-b border-border pb-[29px]">
-                        <span className="max-sm:mr-20px mr-[35px] min-w-[40px] text-3xl font-medium text-black">
+                        <span className="mr-[35px] min-w-[40px] text-3xl font-medium text-black">
                           02
                         </span>
-                        <p className="xxl:text-[20px] font-mont font-medium text-black max-xl:text-[18px] max-sm:text-[17px] max-sm:leading-[23px] sm:leading-7 xl:text-[19px]">
-                          Let us verify your identity
+                        <p className="font-mont font-medium text-black xl:text-[19px]">
+                          Get a custom digital marketing strategy
                         </p>
                       </div>
+
                       <div className="flex items-center">
-                        <span className="max-sm:mr-20px mr-[35px] min-w-[40px] text-3xl font-medium text-black">
+                        <span className="mr-[35px] min-w-[40px] text-3xl font-medium text-black">
                           03
                         </span>
-                        <p className="xxl:text-[20px] font-mont font-medium text-black max-xl:text-[18px] max-sm:text-[17px] max-sm:leading-[23px] sm:leading-7 xl:text-[19px]">
-                          Your account is open; you can send{" "}
-                          <br className="max-xl:hidden" /> your first payment
+                        <p className="font-mont font-medium text-black xl:text-[19px]">
+                          Launch, scale, and grow your brand with DigiTech
                         </p>
                       </div>
                     </div>
+
+                    {/* CTA */}
                     <div className="tp-account-btn-box">
                       <a
                         className="font-mont relative z-[1] mb-[15px] inline-block h-[52px] overflow-hidden rounded-[10px] bg-[linear-gradient(180deg,#B1FF36_-23%,#1D863C_100%)] px-[30px] text-center text-[16px] leading-[52px] font-semibold tracking-[-0.02em] text-white shadow-[0px_2px_3px_rgba(3,22,3,0.2)] transition-all duration-500 hover:transform-[translateY(-2px)] hover:shadow-[0px_8px_24px_0px_rgba(25,118,41,0.3)]"
-                        href="register.webp"
+                        href="#contact"
                       >
-                        Open An Account in Minutes
+                        Start Your Growth Journey
                       </a>
+
                       <p className="text-[13px] leading-3 font-medium text-gray-500">
-                        Try it for 30 days. For free. No obligations.
+                        Free consultation • No commitment • Results-driven
+                        approach
                       </p>
                     </div>
                   </div>
