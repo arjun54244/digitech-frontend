@@ -3,7 +3,8 @@ import PaymentMethod from "@/components/PaymentMethod"
 import { siteMetadata } from "@/lib/data/metadata"
 import { DotLottieReact } from "@lottiefiles/dotlottie-react"
 import { PlayCircle } from "lucide-react"
-import React from "react"
+import Image from "next/image"
+import React, { Suspense } from "react"
 
 export const metadata = siteMetadata.about
 
@@ -19,13 +20,16 @@ const about = () => {
               <div className="grid grid-cols-12 gap-x-[30px] max-md:mb-[35px] md:mb-[45px] lg:mb-[45px] xl:mb-[95px]">
                 {/* LEFT */}
                 <div className="col-span-12 xl:col-span-6">
-                  <h4 className="mb-[8px] inline-block rounded-[30px] bg-[rgba(255,140,66,0.08)] px-[17px] py-[10px] text-[13px] leading-[14px] font-semibold tracking-wider text-orange-500 uppercase">
+                  {/* <h4 className="mb-[8px] inline-block rounded-[30px] bg-orange-200 px-[17px] py-[10px] text-[13px] leading-[14px] font-semibold tracking-wider text-orange-700 uppercase">
+                    ABOUT DIGITECH
+                  </h4> */}
+                  <h4 className="mb-[8px] inline-block rounded-[30px] bg-orange-100 px-[17px] py-[10px] text-[13px] leading-[14px] font-semibold tracking-wider text-orange-700 uppercase">
                     ABOUT DIGITECH
                   </h4>
 
                   <h3 className="mb-3 leading-[1.2] font-bold sm:text-[33px] md:text-[40px] xl:text-[50px]">
                     We Grow{" "}
-                    <span className="text-orange-500">Healthcare Brands</span>{" "}
+                    <span className="text-orange-700">Healthcare Brands</span>{" "}
                     <br />
                     With Digital Excellence
                   </h3>
@@ -34,7 +38,7 @@ const about = () => {
                 {/* RIGHT */}
                 <div className="col-span-12 xl:col-span-6">
                   <div>
-                    <p className="pb-[25px] leading-[26px] font-normal text-[#5F6168] lg:text-[16px] xl:text-[17px]">
+                    <p className="pb-[25px] leading-[26px] font-normal text-gray-700 lg:text-[16px] xl:text-[17px]">
                       At <strong>DigiTech Healthcare</strong>, we specialize in
                       helping hospitals, clinics, and doctors build a strong
                       digital presence and attract high-quality patients. Our
@@ -42,7 +46,7 @@ const about = () => {
                       consistent lead generation.
                     </p>
 
-                    <p className="pb-[25px] leading-[26px] font-normal text-[#5F6168] lg:text-[16px] xl:text-[17px]">
+                    <p className="pb-[25px] leading-[26px] font-normal text-gray-700 lg:text-[16px] xl:text-[17px]">
                       From <strong>SEO and Social Media Marketing</strong> to
                       <strong>
                         {" "}
@@ -52,7 +56,7 @@ const about = () => {
                       healthcare industry.
                     </p>
 
-                    <p className="leading-[26px] font-normal text-[#5F6168] lg:text-[16px] xl:text-[17px]">
+                    <p className="leading-[26px] font-normal text-gray-700 lg:text-[16px] xl:text-[17px]">
                       <span className="xs:text-[18px] text-[20px] leading-[28px] font-medium text-[#202124]">
                         Trusted by{" "}
                         <strong>1500+ healthcare professionals</strong> across
@@ -83,40 +87,48 @@ const about = () => {
                   </div>
                   {/* Main Image */}
                   <div className="animate-scale-up-down relative z-[1] lg:pr-0 xl:pr-[40px]">
-                    <DotLottieReact
-                      src="https://lottie.host/0a77c6bc-32c0-4daa-950c-d420bd617b7e/yBjLsaB0S2.lottie"
-                      className="rounded-[20px]"
-                      loop
-                      autoplay
-                    />
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <DotLottieReact
+                        src="https://lottie.host/0a77c6bc-32c0-4daa-950c-d420bd617b7e/yBjLsaB0S2.lottie"
+                        className="rounded-[20px]"
+                        loop
+                        autoplay
+                      />
+                    </Suspense>
                   </div>
 
                   {/* Sub Image 1 */}
                   <div className="absolute bottom-[-37%] left-[42%] z-[2] hidden animate-[tptranslateY_4s_forwards_infinite_alternate] sm:block">
-                    <DotLottieReact
-                      src="https://lottie.host/9dd144d4-b4d5-4234-b140-b03bdcc54129/GGfEzAO9ff.lottie"
-                      className="rounded-[20px] bg-transparent"
-                      loop
-                      autoplay
-                    />
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <DotLottieReact
+                        src="https://lottie.host/9dd144d4-b4d5-4234-b140-b03bdcc54129/GGfEzAO9ff.lottie"
+                        className="rounded-[20px] bg-transparent"
+                        loop
+                        autoplay
+                      />
+                    </Suspense>
                   </div>
 
                   {/* Sub Image 2 */}
                   <div className="animate-tptranslate_X absolute hidden max-lg:top-[-24%] max-lg:left-[5%] max-md:pt-[80px] sm:block lg:top-[-35%] lg:left-0 xl:top-[-24%] xl:left-[5%]">
-                    <DotLottieReact
-                      src="https://lottie.host/62970deb-02a0-4a8f-b290-c56d90b533b3/eR6gzBSmt8.lottie"
-                      className="rounded-[20px] shadow-[10px_40px_40px_rgba(1,16,61,0.06),_-20px_-20px_120px_rgba(1,16,61,0.12)]"
-                      loop
-                      autoplay
-                    />
+                    <Suspense fallback={<div>Loading...</div>}>
+                      <DotLottieReact
+                        src="https://lottie.host/62970deb-02a0-4a8f-b290-c56d90b533b3/eR6gzBSmt8.lottie"
+                        className="rounded-[20px] shadow-[10px_40px_40px_rgba(1,16,61,0.06),_-20px_-20px_120px_rgba(1,16,61,0.12)]"
+                        loop
+                        autoplay
+                      />
+                    </Suspense>
                   </div>
 
                   {/* Sub Image 3 */}
                   <div className="absolute bottom-[-27%] left-[4%] z-[3] hidden sm:block">
-                    <img
-                      src="assets/img/about/about-5.webp"
+                    <Image
+                      width={256}
+                      height={298}
+                      src="/assets/img/about/about-5.webp"
                       alt=""
-                      className="h-[170px] w-[150px]"
+                    // className="h-[170px] w-[150px]"
                     />
                   </div>
                 </div>
@@ -127,7 +139,10 @@ const about = () => {
                   data-wow-delay=".2s"
                 >
                   <div className="pb-[20px]">
-                    <h4 className="text-blue mb-[8px] inline-block rounded-[30px] bg-[rgba(89,86,233,0.05)] px-[17px] py-[10px] text-[13px] leading-[14px] font-semibold uppercase">
+                    {/* <h4 className="text-blue mb-[8px] inline-block rounded-[30px] bg-[rgba(89,86,233,0.05)] px-[17px] py-[10px] text-[13px] leading-[14px] font-semibold uppercase">
+                      Trusted by 1500+ Healthcare Clients
+                    </h4> */}
+                    <h4 className="mb-[8px] inline-block rounded-[30px] bg-blue-100 px-[17px] py-[10px] text-[13px] leading-[14px] font-semibold uppercase text-blue-700">
                       Trusted by 1500+ Healthcare Clients
                     </h4>
 
@@ -168,7 +183,7 @@ const about = () => {
                   <div>
                     <a
                       href="/about"
-                      className="tp-btn-hover group bg-blue relative z-[2] hidden h-[45px] overflow-hidden rounded-[30px] px-[35px] text-center text-[15px] leading-[45px] font-semibold text-white capitalize transition-colors duration-500 ease-in-out md:inline-block"
+                      className="tp-btn-hover group bg-blue-600 relative z-[2] hidden h-[45px] overflow-hidden rounded-[30px] px-[35px] text-center text-[15px] leading-[45px] font-semibold text-white capitalize transition-colors duration-500 ease-in-out md:inline-block"
                     >
                       <span className="relative z-[5] transition-all delay-100 duration-500 group-hover:text-white">
                         About Digitech
@@ -189,7 +204,7 @@ const about = () => {
           <div className="relative pt-[70px] pb-[160px]">
             {/* Background Shape */}
             <div className="absolute left-0 sm:-top-[53px] md:-top-[75px] lg:-top-[145px]">
-              <img src="assets/img/service/sv-bg-2-1.webp" alt="" />
+              <Image width={669} height={189} src="/assets/img/service/sv-bg-2-1.webp" alt="" />
             </div>
 
             <div className="relative z-[1] mx-auto max-w-[1200px] px-[15px]">
@@ -468,7 +483,7 @@ const about = () => {
                   >
                     <img src="assets/img/account/account-bg.webp" alt="" />
                     <div className="absolute max-sm:top-[-8px] max-sm:left-[9px] sm:top-[-66px] sm:left-[23px] md:left-[124px] lg:top-[-2px] lg:left-[19px] xl:top-[-70px] xl:left-[61px]">
-                      <img src="assets/img/account/acc-main.webp" alt="" />
+                      <Image width={500} height={520} src="/assets/img/account/acc-main.webp" alt="" />
                     </div>
                     <div className="absolute max-sm:right-[14%] max-sm:bottom-[-3px] sm:right-[31%] sm:bottom-[-3px] md:right-[32%] md:bottom-[-6px]">
                       <img src="assets/img/account/ac-author.webp" alt="" />

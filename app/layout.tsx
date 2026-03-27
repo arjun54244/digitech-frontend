@@ -25,18 +25,22 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      suppressHydrationWarning={false}
-      // suppressHydrationWarning
+      suppressHydrationWarning
       className={cn(
-        "antialiased",
+        fontSans.variable,
         fontMono.variable,
-        "font-sans",
-        fontSans.variable
+        "antialiased"
       )}
     >
-      <body>
+      <body
+      // className="font-sans"
+      >
         <QueryProvider>
-          <ThemeProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange>
             <Navbar />
             {children}
             <Footer />

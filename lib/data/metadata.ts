@@ -24,7 +24,21 @@ export const siteMetadata: Record<string, Metadata> = {
             title: "DigiTech - Grow Your Business Online",
             description:
                 "Scale your business with DigiTech’s expert digital marketing strategies. Trusted by 1500+ businesses.",
-            url: "https://www.digitech.com",
+            url: `${process.env.APP_URL}`,
+            type: "website",
+        },
+    },
+    about: {
+        title: "About DigiTech - Expert Digital Marketing Solutions",
+        description:
+            "DigiTech helps businesses grow with result-driven digital marketing services including SEO, social media, branding, and performance marketing.",
+        keywords:
+            "digital marketing agency, SEO services, social media marketing, branding, online growth, performance marketing",
+        openGraph: {
+            title: "DigiTech - Grow Your Business Online",
+            description:
+                "Scale your business with DigiTech’s expert digital marketing strategies. Trusted by 1500+ businesses.",
+            url: `${process.env.APP_URL}/about`,
             type: "website",
         },
     },
@@ -39,7 +53,7 @@ export const siteMetadata: Record<string, Metadata> = {
             title: "DigiTech Services - Marketing That Converts",
             description:
                 "Discover powerful digital marketing services designed to grow your business and increase ROI.",
-            url: "https://www.digitech.com/services",
+            url: `${process.env.APP_URL}/services`,
             type: "website",
         },
     },
@@ -54,7 +68,7 @@ export const siteMetadata: Record<string, Metadata> = {
             title: "Contact DigiTech - Start Your Growth Journey",
             description:
                 "Reach out to DigiTech and get expert guidance for your business growth.",
-            url: "https://www.digitech.com/contact",
+            url: `${process.env.APP_URL}/contact`,
             type: "website",
         },
     },
@@ -69,7 +83,7 @@ export const siteMetadata: Record<string, Metadata> = {
             title: "DigiTech Blog - Marketing Insights & Strategies",
             description:
                 "Stay updated with the latest trends and tips in digital marketing.",
-            url: "https://www.digitech.com/blogs",
+            url: `${process.env.APP_URL}/blogs`,
             type: "website",
         },
     },
@@ -84,7 +98,7 @@ export const siteMetadata: Record<string, Metadata> = {
             title: "DigiTech Portfolio - Proven Results",
             description:
                 "See how DigiTech has helped businesses achieve real growth with digital marketing.",
-            url: "https://www.digitech.com/portfolio",
+            url: `${process.env.APP_URL}/portfolio`,
             type: "website",
         },
     },

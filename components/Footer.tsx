@@ -243,6 +243,7 @@ export const Footer: React.FC = () => {
 
         {/* Scroll to top */}
         <button
+          aria-label="Scroll to top"
           onClick={handleScrollTop}
           className="fixed right-8 bottom-8 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-cyan-500 text-white shadow-lg shadow-orange-500/30 transition-all duration-300 hover:scale-110 hover:shadow-xl hover:shadow-orange-500/50"
         >
