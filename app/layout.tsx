@@ -17,7 +17,7 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 })
 
-export default function RootLayout({
+export default function FontendLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
