@@ -21,6 +21,8 @@ import {
 
 import { serviceSchema, type ServiceSchema } from "@/lib/schemas/service";
 import { useService, useUpdateService } from "@/hooks/use-services";
+import RichTextEditor from "@/components/admin/RichTextEditor";
+import ImageUpload from "@/components/admin/ImageUpload";
 
 export default function EditServicePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -36,7 +38,7 @@ export default function EditServicePage({ params }: { params: Promise<{ id: stri
     setValue,
     reset,
     formState: { errors },
-  } = useForm<ServiceSchema>({
+  } = useForm({
     resolver: zodResolver(serviceSchema),
     defaultValues: {
       title: "",
@@ -116,7 +118,7 @@ export default function EditServicePage({ params }: { params: Promise<{ id: stri
 
         {/* Desktop Update Button */}
         <Button 
-          onClick={handleSubmit(onSubmit)} 
+          onClick={handleSubmit((values) => onSubmit(values))} 
           disabled={updateMutation.isPending}
           className="hidden md:flex shadow-lg"
         >
@@ -125,7 +127,7 @@ export default function EditServicePage({ params }: { params: Promise<{ id: stri
         </Button>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="grid lg:grid-cols-3 gap-8">
+      <form onSubmit={handleSubmit((values) => onSubmit(values))} className="grid lg:grid-cols-3 gap-8">
         {/* LEFT SIDE */}
         <div className="lg:col-span-2 space-y-8">
           {/* Basic Info */}
@@ -170,13 +172,11 @@ export default function EditServicePage({ params }: { params: Promise<{ id: stri
               </Field>
 
               <Field>
-                <FieldLabel htmlFor="content">Full Content / Process Details</FieldLabel>
+                <FieldLabel htmlFor="content">Full Content / Process Details (Rich Text)</FieldLabel>
                 <FieldContent>
-                  <Textarea
-                    id="content"
-                    placeholder="Describe your service in detail..."
-                    className="min-h-[250px]"
-                    {...register("content")}
+                  <RichTextEditor
+                    value={watch("content") || ""}
+                    onChange={(val: string) => setValue("content", val, { shouldValidate: true })}
                   />
                   <FieldError errors={[errors.content]} />
                 </FieldContent>

@@ -100,7 +100,9 @@ export default function ServicesListPage() {
                       </Link>
 
                       <AlertDialog>
-                        <AlertDialogTrigger asChild>
+                        <AlertDialogTrigger
+                          asChild
+                        >
                           <Button size="sm" variant="destructive">
                             <Trash2 className="w-4 h-4" />
                           </Button>

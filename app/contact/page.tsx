@@ -30,16 +30,14 @@ export default function ContactPage() {
                                 Global Headquarters
                             </h3>
                             <div className="group relative rounded-3xl overflow-hidden shadow-2xl transition-transform duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(217,70,239,0.3)] border border-gray-200 dark:border-white/10">
-                                {/* Map component (using standard iframe wrapper or the user's component if exported) */}
                                 <iframe
-                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14008.069458920194!2d77.30602047805175!3d28.584766399999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce56408add5c9%3A0x81694818142d8dd3!2sDigitech%20Healthcare!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
-                                    className="w-full h-[300px] sm:h-[400px] filter grayscale hover:grayscale-0 transition-all duration-700"
+                                    src={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
+                                    className="w-full h-[300px] sm:h-[400px] transition-all duration-700"
                                     style={{ border: 0 }}
                                     allowFullScreen
                                     loading="lazy"
                                     referrerPolicy="no-referrer-when-downgrade"
                                 />
-                                {/* Glass overlay pointer blocker on initial to look premium */}
                                 <div className="absolute inset-0 pointer-events-none ring-1 ring-inset ring-black/10 dark:ring-white/10 rounded-3xl" />
                             </div>
                         </div>

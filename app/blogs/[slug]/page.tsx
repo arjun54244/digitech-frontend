@@ -16,8 +16,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         title: `${blog.meta_title || blog.title} | DigiTech`,
         description: blog.meta_description || blog.short_description || "Read more on DigiTech.",
         openGraph: {
-            title: blog.title,
-            description: blog.short_description,
+            title: blog.title || blog.meta_title || "DigiTech",
+            description: blog.short_description || blog.meta_description || "Read more on DigiTech.",
             images: blog.image_url ? [{ url: blog.image_url }] : [],
         }
     }
@@ -45,8 +45,7 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
     }
 
     return (
-        <main className="min-h-screen bg-slate-50 dark:bg-[#030308] text-slate-900 dark:text-white selection:bg-pink-500/30 overflow-hidden relative">
-            {/* Immersive Background Glows */}
+        <main className="min-h-screen bg-background text-foreground selection:bg-pink-500/30 overflow-hidden relative">            {/* Immersive Background Glows */}
             <div className="fixed inset-0 pointer-events-none z-0">
                 <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-pink-400/20 dark:bg-pink-500/10 blur-[150px] rounded-full" />
                 <div className="absolute top-1/2 left-0 w-1/2 h-1/2 bg-indigo-400/20 dark:bg-indigo-500/10 blur-[150px] rounded-full" />

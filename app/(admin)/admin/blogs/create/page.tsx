@@ -21,6 +21,8 @@ import {
 
 import { blogSchema, type BlogSchema } from "@/lib/schemas/blog";
 import { useCreateBlog } from "@/hooks/use-blogs";
+import RichTextEditor from "@/components/admin/RichTextEditor";
+import ImageUpload from "@/components/admin/ImageUpload";
 
 export default function CreateBlogPage() {
   const router = useRouter();
@@ -33,7 +35,7 @@ export default function CreateBlogPage() {
     watch,
     setValue,
     formState: { errors, dirtyFields },
-  } = useForm<BlogSchema>({
+  } = useForm({
     resolver: zodResolver(blogSchema),
     defaultValues: {
       title: "",
@@ -98,8 +100,8 @@ export default function CreateBlogPage() {
         </div>
 
         {/* Desktop Publish Button */}
-        <Button 
-          onClick={handleSubmit(onSubmit)} 
+        <Button
+          onClick={handleSubmit((values) => onSubmit(values))}
           disabled={createMutation.isPending}
           className="hidden md:flex shadow-lg"
         >
@@ -108,7 +110,7 @@ export default function CreateBlogPage() {
         </Button>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="grid lg:grid-cols-3 gap-8">
+      <form onSubmit={handleSubmit((values) => onSubmit(values))} className="grid lg:grid-cols-3 gap-8">
         {/* LEFT SIDE */}
         <div className="lg:col-span-2 space-y-8">
           {/* Basic Info */}
@@ -119,10 +121,10 @@ export default function CreateBlogPage() {
               <Field>
                 <FieldLabel htmlFor="title">Title</FieldLabel>
                 <FieldContent>
-                  <Input 
-                    id="title" 
-                    placeholder="Enter blog title" 
-                    {...register("title")} 
+                  <Input
+                    id="title"
+                    placeholder="Enter blog title"
+                    {...register("title")}
                   />
                   <FieldError errors={[errors.title]} />
                 </FieldContent>
@@ -131,10 +133,10 @@ export default function CreateBlogPage() {
               <Field>
                 <FieldLabel htmlFor="slug">Slug</FieldLabel>
                 <FieldContent>
-                  <Input 
-                    id="slug" 
-                    placeholder="seo-best-practices-2025" 
-                    {...register("slug")} 
+                  <Input
+                    id="slug"
+                    placeholder="seo-best-practices-2025"
+                    {...register("slug")}
                   />
                   <FieldError errors={[errors.slug]} />
                 </FieldContent>
@@ -143,23 +145,22 @@ export default function CreateBlogPage() {
               <Field>
                 <FieldLabel htmlFor="short_description">Short Description</FieldLabel>
                 <FieldContent>
-                  <Textarea 
-                    id="short_description" 
-                    placeholder="Short SEO-friendly summary" 
-                    {...register("short_description")} 
+                  <Textarea
+                    id="short_description"
+                    placeholder="Short SEO-friendly summary"
+                    {...register("short_description")}
                   />
                   <FieldError errors={[errors.short_description]} />
                 </FieldContent>
               </Field>
 
               <Field>
-                <FieldLabel htmlFor="content">Blog Content (HTML supported)</FieldLabel>
+                <FieldLabel htmlFor="content">Blog Content (Rich Text)</FieldLabel>
                 <FieldContent>
-                  <Textarea
-                    id="content"
+                  <RichTextEditor
+                    value={watch("content") || ""}
+                    onChange={(val: string) => setValue("content", val, { shouldValidate: true })}
                     placeholder="Write your blog content..."
-                    className="min-h-[250px]"
-                    {...register("content")}
                   />
                   <FieldError errors={[errors.content]} />
                 </FieldContent>
@@ -175,10 +176,10 @@ export default function CreateBlogPage() {
               <Field>
                 <FieldLabel htmlFor="meta_title">Meta Title</FieldLabel>
                 <FieldContent>
-                  <Input 
-                    id="meta_title" 
-                    placeholder="Meta title for Google (fallback: Title)" 
-                    {...register("meta_title")} 
+                  <Input
+                    id="meta_title"
+                    placeholder="Meta title for Google (fallback: Title)"
+                    {...register("meta_title")}
                   />
                   <FieldError errors={[errors.meta_title]} />
                 </FieldContent>
@@ -187,10 +188,10 @@ export default function CreateBlogPage() {
               <Field>
                 <FieldLabel htmlFor="meta_description">Meta Description (150–160 chars)</FieldLabel>
                 <FieldContent>
-                  <Textarea 
-                    id="meta_description" 
-                    placeholder="150–160 characters recommended" 
-                    {...register("meta_description")} 
+                  <Textarea
+                    id="meta_description"
+                    placeholder="150–160 characters recommended"
+                    {...register("meta_description")}
                   />
                   <FieldError errors={[errors.meta_description]} />
                 </FieldContent>
@@ -199,9 +200,9 @@ export default function CreateBlogPage() {
               <Field>
                 <FieldLabel htmlFor="meta_keywords">Meta Keywords (Comma separated)</FieldLabel>
                 <FieldContent>
-                  <Input 
+                  <Input
                     id="meta_keywords"
-                    placeholder="seo, marketing, google" 
+                    placeholder="seo, marketing, google"
                     onChange={(e) => {
                       const tags = e.target.value.split(",").map(s => s.trim()).filter(Boolean);
                       setValue("meta_keywords", tags, { shouldValidate: true });
@@ -217,46 +218,7 @@ export default function CreateBlogPage() {
         {/* RIGHT SIDE */}
         <div className="space-y-6">
           {/* Featured Image */}
-          <Card className="p-6 space-y-4 rounded-2xl shadow-md border border-border/50">
-            <h2 className="text-lg font-semibold">🖼 Featured Image</h2>
-
-            <FieldGroup>
-              <Field>
-                <FieldLabel htmlFor="image_url">Image URL</FieldLabel>
-                <FieldContent>
-                  <Input 
-                    id="image_url" 
-                    placeholder="https://example.com/image.jpg" 
-                    {...register("image_url")} 
-                  />
-                  <FieldError errors={[errors.image_url]} />
-                </FieldContent>
-              </Field>
-
-              {preview && (
-                <div className="rounded-xl overflow-hidden border">
-                  <img
-                    src={preview}
-                    alt="Preview"
-                    className="w-full h-48 object-cover"
-                    onError={() => setPreview(null)}
-                  />
-                </div>
-              )}
-
-              <Field>
-                <FieldLabel htmlFor="image_alt">Image Alt Text</FieldLabel>
-                <FieldContent>
-                  <Input 
-                    id="image_alt" 
-                    placeholder="SEO optimized image alt text" 
-                    {...register("image_alt")} 
-                  />
-                  <FieldError errors={[errors.image_alt]} />
-                </FieldContent>
-              </Field>
-            </FieldGroup>
-          </Card>
+          <ImageUpload setValue={setValue} />
 
           {/* Quick Tips */}
           <Card className="p-6 rounded-2xl bg-gradient-to-br from-muted/40 to-muted/10 border border-border/50">
@@ -270,9 +232,9 @@ export default function CreateBlogPage() {
           </Card>
 
           {/* Mobile Publish Button */}
-          <Button 
-            type="submit" 
-            disabled={createMutation.isPending} 
+          <Button
+            type="submit"
+            disabled={createMutation.isPending}
             className="w-full md:hidden"
           >
             {createMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
@@ -283,4 +245,4 @@ export default function CreateBlogPage() {
     </div>
   );
 }
-
+

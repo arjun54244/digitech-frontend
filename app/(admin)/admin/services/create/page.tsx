@@ -22,6 +22,7 @@ import {
 import { serviceSchema, type ServiceSchema } from "@/lib/schemas/service";
 import { useCreateService } from "@/hooks/use-services";
 import ImageUpload from "@/components/admin/ImageUpload";
+import RichTextEditor from "@/components/admin/RichTextEditor";
 
 export default function CreateServicePage() {
   const router = useRouter();
@@ -34,7 +35,7 @@ export default function CreateServicePage() {
     watch,
     setValue,
     formState: { errors, dirtyFields },
-  } = useForm<ServiceSchema>({
+  } = useForm({
     resolver: zodResolver(serviceSchema),
     defaultValues: {
       title: "",
@@ -154,13 +155,11 @@ export default function CreateServicePage() {
               </Field>
 
               <Field>
-                <FieldLabel htmlFor="content">Full Content / Process Details (HTML/Markdown)</FieldLabel>
+                <FieldLabel htmlFor="content">Full Content / Process Details (Rich Text)</FieldLabel>
                 <FieldContent>
-                  <Textarea
-                    id="content"
-                    placeholder="Describe your service in detail..."
-                    className="min-h-[250px]"
-                    {...register("content")}
+                  <RichTextEditor
+                    value={watch("content") || ""}
+                    onChange={(val: string) => setValue("content", val, { shouldValidate: true })}
                   />
                   <FieldError errors={[errors.content]} />
                 </FieldContent>
@@ -245,3 +244,4 @@ export default function CreateServicePage() {
     </div>
   );
 }
+

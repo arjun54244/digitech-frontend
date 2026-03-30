@@ -34,8 +34,8 @@ function ImageUpload({ setValue }: any) {
                 ref={setNodeRef}
                 onDrop={handleDrop}
                 onDragOver={(e) => e.preventDefault()}
-                className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition 
-          ${isOver ? "border-green-500 bg-green-50" : "border-muted"}`}
+                className={`border-2 border-gray-300 rounded-xl p-6 text-center cursor-pointer transition 
+          ${isOver ? "border-green-500 bg-green-50" : "border-gray-300"}`}
             >
                 <p className="text-sm text-muted-foreground">
                     Drag & drop image here or click to upload

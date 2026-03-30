@@ -37,9 +37,10 @@ export default function FontendLayout({
         <QueryProvider>
           <ThemeProvider
             attribute="class"
-            defaultTheme="light"
+            defaultTheme="system"
             enableSystem
-            disableTransitionOnChange>
+            disableTransitionOnChange
+          >
             <ConditionalLayout>
               {children}
             </ConditionalLayout>

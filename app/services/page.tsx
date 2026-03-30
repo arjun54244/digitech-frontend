@@ -14,6 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: `Our Services | ${brandName}`,
     description: "We offer modern web development, design, and digital solutions.",
+    keywords: ["web development", "design", "digital solutions", "DigiTech Healthcare"],
     alternates: {
       canonical: "/services",
     },

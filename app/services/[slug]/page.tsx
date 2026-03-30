@@ -38,7 +38,7 @@ export default async function ServiceDetailPage({ params }: Props) {
     const service: Service = await res.json();
 
     return (
-        <main className="min-h-screen bg-black text-white selection:bg-pink-500/30">
+        <main className="min-h-screen bg-background text-foreground selection:bg-pink-500/30">
             <HeroSection
                 eyebrow="Modern digital services for growth"
                 title={
