@@ -7,7 +7,7 @@ import type { Blog } from "@/lib/types/blog"
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
     const { slug } = await params;
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/blogs?slug=${slug}`, { cache: 'no-store' });
+    const res = await fetch(`${process.env.APP_URL || 'http://localhost:3000'}/api/blogs?slug=${slug}`, { cache: 'no-store' });
     const blog: Blog = await res.json();
 
     if (!blog) return { title: "Blog Not Found" };
@@ -25,12 +25,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BlogDetailPage({ params }: { params: Promise<{ slug: string }> }) {
     const { slug } = await params;
-    
+
     // Fetch blog from internal API
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/blogs?slug=${slug}`, { 
-        cache: 'no-store' 
+    const res = await fetch(`${process.env.APP_URL || 'http://localhost:3000'}/api/blogs?slug=${slug}`, {
+        cache: 'no-store'
     });
-    
+
     if (!res.ok) notFound();
     const blog: Blog = await res.json();
 

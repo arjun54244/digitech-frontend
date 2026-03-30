@@ -11,7 +11,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/services?slug=${slug}`, { cache: 'no-store' });
+    const res = await fetch(`${process.env.APP_URL || 'http://localhost:3000'}/api/services?slug=${slug}`, { cache: 'no-store' });
     const service: Service = await res.json();
 
     if (!service) {
@@ -28,12 +28,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ServiceDetailPage({ params }: Props) {
     const { slug } = await params;
-    
+
     // Fetch service from internal API
-    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/services?slug=${slug}`, { 
-        cache: 'no-store' 
+    const res = await fetch(`${process.env.APP_URL || 'http://localhost:3000'}/api/services?slug=${slug}`, {
+        cache: 'no-store'
     });
-    
+
     if (!res.ok) notFound();
     const service: Service = await res.json();
 
@@ -70,7 +70,7 @@ export default async function ServiceDetailPage({ params }: Props) {
 
             <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
                 <div className="flex flex-col gap-12">
-                   <Link
+                    <Link
                         href="/services"
                         className="inline-flex items-center text-zinc-400 hover:text-pink-400 transition-colors font-bold tracking-wide mb-4"
                     >
@@ -81,7 +81,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                     {/* Content Area */}
                     <div className="prose-container text-lg sm:text-xl text-zinc-300 font-medium leading-[1.8] space-y-8 tracking-tight">
                         {service.image_url && (
-                             <div className="w-full aspect-video rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl mb-12">
+                            <div className="w-full aspect-video rounded-[2rem] overflow-hidden border border-white/10 shadow-2xl mb-12">
                                 <img
                                     src={service.image_url}
                                     alt={service.image_alt || service.title}
@@ -89,7 +89,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                                 />
                             </div>
                         )}
-                        
+
                         <div
                             dangerouslySetInnerHTML={{ __html: service.content || "" }}
                         />
