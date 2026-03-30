@@ -19,14 +19,14 @@ import {
   FieldContent,
 } from "@/components/ui/field";
 
-import { blogSchema, type BlogSchema } from "@/lib/schemas/blog";
-import { useBlog, useUpdateBlog } from "@/hooks/use-blogs";
+import { serviceSchema, type ServiceSchema } from "@/lib/schemas/service";
+import { useService, useUpdateService } from "@/hooks/use-services";
 
-export default function EditBlogPage({ params }: { params: Promise<{ id: string }> }) {
+export default function EditServicePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
-  const { data: blog, isLoading } = useBlog(id);
-  const updateMutation = useUpdateBlog(id);
+  const { data: service, isLoading } = useService(id);
+  const updateMutation = useUpdateService(id);
   const [preview, setPreview] = useState<string | null>(null);
 
   const {
@@ -36,8 +36,8 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
     setValue,
     reset,
     formState: { errors },
-  } = useForm<BlogSchema>({
-    resolver: zodResolver(blogSchema),
+  } = useForm<ServiceSchema>({
+    resolver: zodResolver(serviceSchema),
     defaultValues: {
       title: "",
       slug: "",
@@ -53,21 +53,21 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
 
   // Pre-fill form when data is loaded
   useEffect(() => {
-    if (blog) {
+    if (service) {
       reset({
-        title: blog.title || "",
-        slug: blog.slug || "",
-        short_description: blog.short_description || "",
-        content: blog.content || "",
-        image_url: blog.image_url || "",
-        image_alt: blog.image_alt || "",
-        meta_title: blog.meta_title || "",
-        meta_description: blog.meta_description || "",
-        meta_keywords: blog.meta_keywords || [],
+        title: service.title || "",
+        slug: service.slug || "",
+        short_description: service.short_description || "",
+        content: service.content || "",
+        image_url: service.image_url || "",
+        image_alt: service.image_alt || "",
+        meta_title: service.meta_title || "",
+        meta_description: service.meta_description || "",
+        meta_keywords: service.meta_keywords || [],
       });
-      setPreview(blog.image_url || null);
+      setPreview(service.image_url || null);
     }
-  }, [blog, reset]);
+  }, [service, reset]);
 
   const imageUrl = watch("image_url");
 
@@ -80,10 +80,10 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
     }
   }, [imageUrl]);
 
-  async function onSubmit(values: BlogSchema) {
+  async function onSubmit(values: ServiceSchema) {
     updateMutation.mutate(values, {
       onSuccess: () => {
-        router.push("/admin/blogs");
+        router.push("/admin/services");
       },
     });
   }
@@ -91,7 +91,7 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
   if (isLoading) {
     return (
       <div className="flex h-[400px] items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-pink-500" />
+        <Loader2 className="h-8 w-8 animate-spin text-indigo-500" />
       </div>
     );
   }
@@ -101,15 +101,15 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <Link href="/admin/blogs">
+          <Link href="/admin/services">
             <Button variant="ghost" size="icon">
               <ArrowLeft className="h-5 w-5" />
             </Button>
           </Link>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Edit Blog</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Edit Service</h1>
             <p className="text-muted-foreground text-sm">
-              Update "{blog?.title}" and optimize for SEO 🚀
+              Update "{service?.title}" details 🛠
             </p>
           </div>
         </div>
@@ -121,7 +121,7 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
           className="hidden md:flex shadow-lg"
         >
           {updateMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          Update Blog 🚀
+          Update Service 🚀
         </Button>
       </div>
 
@@ -130,15 +130,15 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
         <div className="lg:col-span-2 space-y-8">
           {/* Basic Info */}
           <Card className="p-6 space-y-5 rounded-2xl shadow-md border border-border/50">
-            <h2 className="text-lg font-semibold">📝 Blog Details</h2>
+            <h2 className="text-lg font-semibold">📝 Service Details</h2>
 
             <FieldGroup>
               <Field>
-                <FieldLabel htmlFor="title">Title</FieldLabel>
+                <FieldLabel htmlFor="title">Service Title</FieldLabel>
                 <FieldContent>
                   <Input 
                     id="title" 
-                    placeholder="Enter blog title" 
+                    placeholder="e.g. Web Development" 
                     {...register("title")} 
                   />
                   <FieldError errors={[errors.title]} />
@@ -146,11 +146,11 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
               </Field>
 
               <Field>
-                <FieldLabel htmlFor="slug">Slug</FieldLabel>
+                <FieldLabel htmlFor="slug">Slug / ID</FieldLabel>
                 <FieldContent>
                   <Input 
                     id="slug" 
-                    placeholder="seo-best-practices-2025" 
+                    placeholder="e.g. web-development" 
                     {...register("slug")} 
                   />
                   <FieldError errors={[errors.slug]} />
@@ -162,7 +162,7 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
                 <FieldContent>
                   <Textarea 
                     id="short_description" 
-                    placeholder="Short SEO-friendly summary" 
+                    placeholder="Brief overview of the service" 
                     {...register("short_description")} 
                   />
                   <FieldError errors={[errors.short_description]} />
@@ -170,11 +170,11 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
               </Field>
 
               <Field>
-                <FieldLabel htmlFor="content">Blog Content (HTML supported)</FieldLabel>
+                <FieldLabel htmlFor="content">Full Content / Process Details</FieldLabel>
                 <FieldContent>
                   <Textarea
                     id="content"
-                    placeholder="Write your blog content..."
+                    placeholder="Describe your service in detail..."
                     className="min-h-[250px]"
                     {...register("content")}
                   />
@@ -202,11 +202,11 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
               </Field>
 
               <Field>
-                <FieldLabel htmlFor="meta_description">Meta Description (150–160 chars)</FieldLabel>
+                <FieldLabel htmlFor="meta_description">Meta Description</FieldLabel>
                 <FieldContent>
                   <Textarea 
                     id="meta_description" 
-                    placeholder="150–160 characters recommended" 
+                    placeholder="SEO friendly description" 
                     {...register("meta_description")} 
                   />
                   <FieldError errors={[errors.meta_description]} />
@@ -218,8 +218,8 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
                 <FieldContent>
                   <Input 
                     id="meta_keywords"
-                    placeholder="seo, marketing, google" 
-                    defaultValue={blog?.meta_keywords?.join(", ")}
+                    placeholder="web, development, nextjs" 
+                    defaultValue={service?.meta_keywords?.join(", ")}
                     onChange={(e) => {
                       const tags = e.target.value.split(",").map(s => s.trim()).filter(Boolean);
                       setValue("meta_keywords", tags, { shouldValidate: true });
@@ -234,17 +234,17 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
 
         {/* RIGHT SIDE */}
         <div className="space-y-6">
-          {/* Featured Image */}
+          {/* Service Image */}
           <Card className="p-6 space-y-4 rounded-2xl shadow-md border border-border/50">
-            <h2 className="text-lg font-semibold">🖼 Featured Image</h2>
+            <h2 className="text-lg font-semibold">🖼 Service Icon/Image</h2>
 
             <FieldGroup>
               <Field>
-                <FieldLabel htmlFor="image_url">Image URL</FieldLabel>
+                <FieldLabel htmlFor="image_url">Icon/Image URL</FieldLabel>
                 <FieldContent>
                   <Input 
                     id="image_url" 
-                    placeholder="https://example.com/image.jpg" 
+                    placeholder="https://example.com/icon.png" 
                     {...register("image_url")} 
                   />
                   <FieldError errors={[errors.image_url]} />
@@ -256,18 +256,18 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
                   <img
                     src={preview}
                     alt="Preview"
-                    className="w-full h-48 object-cover"
+                    className="w-full h-48 object-contain bg-muted"
                     onError={() => setPreview(null)}
                   />
                 </div>
               )}
 
               <Field>
-                <FieldLabel htmlFor="image_alt">Image Alt Text</FieldLabel>
+                <FieldLabel htmlFor="image_alt">Alt Text</FieldLabel>
                 <FieldContent>
                   <Input 
                     id="image_alt" 
-                    placeholder="SEO optimized image alt text" 
+                    placeholder="Service image alt text" 
                     {...register("image_alt")} 
                   />
                   <FieldError errors={[errors.image_alt]} />
@@ -276,12 +276,12 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
             </FieldGroup>
           </Card>
 
-          {/* Quick Info */}
-          <Card className="p-6 rounded-2xl bg-muted/20 border border-border/50">
-            <h3 className="font-semibold mb-2">📊 Content Stats</h3>
+          {/* Service Info */}
+          <Card className="p-6 rounded-2xl bg-indigo-500/5 border border-border/50">
+            <h3 className="font-semibold mb-2">📊 Service Data</h3>
             <ul className="text-sm text-muted-foreground space-y-1">
-              <li>• Created: {blog && new Date(blog.created_at).toLocaleDateString()}</li>
-              <li>• Last Updated: {blog && new Date(blog.updated_at).toLocaleDateString()}</li>
+              <li>• Created: {service && new Date(service.created_at).toLocaleDateString()}</li>
+              <li>• Display Order: {service?.sort_order}</li>
               <li>• ID: {id}</li>
             </ul>
           </Card>
@@ -293,11 +293,10 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
             className="w-full md:hidden"
           >
             {updateMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Update Blog 🚀
+            Update Service 🚀
           </Button>
         </div>
       </form>
     </div>
   );
 }
-

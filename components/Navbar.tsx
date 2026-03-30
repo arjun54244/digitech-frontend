@@ -49,11 +49,10 @@ export const Navbar: React.FC = () => {
     <>
       <nav
         ref={navRef}
-        className={`fixed top-0 right-0 left-0 z-50 transition-all duration-500 ${
-          isScrolled
+        className={`fixed top-0 right-0 left-0 z-50 transition-all duration-500 ${isScrolled
             ? "border-b border-border/30 bg-background/80 py-4 backdrop-blur-xl"
             : "bg-transparent py-6"
-        }`}
+          }`}
       >
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between">
@@ -75,14 +74,14 @@ export const Navbar: React.FC = () => {
             {/* Desktop Navigation */}
             <div className="hidden items-center gap-8 md:flex">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
                   href={link.href}
                   className="group relative text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {link.name}
                   <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-accent transition-all duration-300 group-hover:w-full" />
-                </a>
+                </Link>
               ))}
             </div>
 
@@ -113,13 +112,12 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Menu */}
       <div
-        className={`fixed inset-0 z-40 bg-background/95 backdrop-blur-xl transition-all duration-500 md:hidden ${
-          isMobileOpen ? "visible opacity-100" : "invisible opacity-0"
-        }`}
+        className={`fixed inset-0 z-40 bg-background/95 backdrop-blur-xl transition-all duration-500 md:hidden ${isMobileOpen ? "visible opacity-100" : "invisible opacity-0"
+          }`}
       >
         <div className="flex h-full flex-col items-center justify-center gap-8">
           {navLinks.map((link, index) => (
-            <a
+            <Link
               key={link.name}
               href={link.href}
               onClick={() => setIsMobileOpen(false)}
@@ -129,7 +127,7 @@ export const Navbar: React.FC = () => {
               }}
             >
               {link.name}
-            </a>
+            </Link>
           ))}
           <MagneticButton
             variant="primary"

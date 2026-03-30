@@ -3,16 +3,26 @@
 import { motion } from "framer-motion"
 import Link from "next/link"
 import { ArrowRight, Clock } from "lucide-react"
-import type { BlogPost } from "@/lib/data/blogs"
+import type { Blog } from "@/lib/types/blog"
 import { useRef } from "react"
 import { useTiltEffect } from "@/hooks/useTiltEffect"
+import { format } from "date-fns"
 
-export function BlogCard({ blog, index }: { blog: BlogPost; index: number }) {
+export function BlogCard({ blog, index }: { blog: Blog; index: number }) {
     const cardRef = useRef<HTMLDivElement>(null)
     const { rotateX, rotateY, handleMouseMove, handleMouseLeave } = useTiltEffect(cardRef, 10)
 
     // Calculate distinct Z-depth illusions for "anti-gravity" stagger
     const yOffset = index % 2 === 0 ? 0 : 50
+
+    // Fallbacks for fields not in current DB schema
+    const displayDate = format(new Date(blog.created_at), "MMM dd, yyyy")
+    const displayCategory = "Tech & Innovation" // Placeholder
+    const displayReadTime = "5 min read" // Placeholder
+    const displayAuthor = {
+        name: "DigiTech Admin",
+        avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=100"
+    }
 
     return (
         <motion.div
@@ -23,7 +33,7 @@ export function BlogCard({ blog, index }: { blog: BlogPost; index: number }) {
             className="relative z-10 perspective-[1200px] h-full"
             style={{ marginTop: index > 1 && index % 2 !== 0 ? "-50px" : "0px" }}
         >
-            <Link href={`/blogs/${blog.id}`} className="block h-full outline-none">
+            <Link href={`/blogs/${blog.slug}`} className="block h-full outline-none">
                 <motion.div
                     ref={cardRef}
                     onMouseMove={handleMouseMove}
@@ -42,15 +52,15 @@ export function BlogCard({ blog, index }: { blog: BlogPost; index: number }) {
                     >
                         <div className="absolute inset-0 bg-black/10 dark:bg-black/30 group-hover:bg-transparent transition-colors duration-700 z-10" />
                         <img
-                            src={blog.coverImage}
-                            alt={blog.title}
+                            src={blog.image_url || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200"}
+                            alt={blog.image_alt || blog.title}
                             className="w-full h-full object-cover transition-transform duration-[1500ms] group-hover:scale-105"
                         />
 
                         {/* Category badge */}
                         <div className="absolute top-4 left-4 z-20">
                             <span className="px-3 py-1.5 text-xs font-black tracking-wider text-pink-600 dark:text-pink-400 uppercase bg-white/90 dark:bg-black/80 backdrop-blur rounded-full shadow-sm">
-                                {blog.category}
+                                {displayCategory}
                             </span>
                         </div>
                     </div>
@@ -60,16 +70,16 @@ export function BlogCard({ blog, index }: { blog: BlogPost; index: number }) {
                             {blog.title}
                         </h3>
                         <p className="text-slate-600 dark:text-zinc-400 line-clamp-2 mt-auto text-base font-medium mb-6">
-                            {blog.excerpt}
+                            {blog.short_description}
                         </p>
 
                         <div className="flex items-center justify-between border-t border-slate-200 dark:border-white/10 pt-4 mt-auto">
                             <div className="flex items-center gap-3">
-                                <img src={blog.author.avatar} alt={blog.author.name} className="w-8 h-8 rounded-full object-cover ring-2 ring-white dark:ring-zinc-800" />
+                                <img src={displayAuthor.avatar} alt={displayAuthor.name} className="w-8 h-8 rounded-full object-cover ring-2 ring-white dark:ring-zinc-800" />
                                 <div className="flex flex-col">
-                                    <span className="text-sm font-bold text-slate-900 dark:text-white">{blog.author.name}</span>
+                                    <span className="text-sm font-bold text-slate-900 dark:text-white">{displayAuthor.name}</span>
                                     <span className="text-xs text-slate-500 dark:text-zinc-500 flex items-center gap-1">
-                                        {blog.date} <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-zinc-600 mx-1" /> {blog.readTime}
+                                        {displayDate} <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-zinc-600 mx-1" /> {displayReadTime}
                                     </span>
                                 </div>
                             </div>
@@ -84,3 +94,4 @@ export function BlogCard({ blog, index }: { blog: BlogPost; index: number }) {
         </motion.div>
     )
 }
+

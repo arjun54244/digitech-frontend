@@ -1,11 +1,11 @@
 "use client"
 import { motion } from "framer-motion"
 import { BlogCard } from "./BlogCard"
-import type { BlogPost } from "@/lib/data/blogs"
+import type { Blog } from "@/lib/types/blog"
 import { memo } from "react"
 import { useQuery } from "@tanstack/react-query"
 
-async function fetchBlogs(): Promise<BlogPost[]> {
+async function fetchBlogs(): Promise<Blog[]> {
     const res = await fetch("/api/blogs")
     if (!res.ok) throw new Error("Failed to fetch blogs")
     return res.json()

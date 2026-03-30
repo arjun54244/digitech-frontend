@@ -41,27 +41,27 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "/dashboard",
+      url: "/admin",
       icon: IconDashboard,
     },
     {
       title: "Blogs",
-      url: "/blogs",
+      url: "/admin/blogs",
       icon: IconListDetails,
     },
     {
       title: "Services",
-      url: "/services",
+      url: "/admin/services",
       icon: IconSettings,
     },
     {
-      title: "gallery",
-      url: "/gallery",
+      title: "Gallery",
+      url: "/admin/gallery",
       icon: IconInnerShadowTop,
     },
     {
       title: "Team",
-      url: "#",
+      url: "/admin/team",
       icon: IconUsers,
     },
   ],

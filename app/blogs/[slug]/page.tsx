@@ -1,22 +1,48 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft, Share2, Facebook, Twitter, Linkedin } from "lucide-react"
-import { blogsData } from "@/lib/data/blogs"
+import type { Metadata } from "next"
+import { format } from "date-fns"
+import type { Blog } from "@/lib/types/blog"
 
-// Instead of Next.js 'generateMetadata', we can just use simple metadata for the scope of this project
-export const metadata = {
-    title: "Blog Detail | DigiTech Digital Marketing Solutions",
-    description: "Read the full article and explore more digital marketing insights."
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+    const { slug } = await params;
+    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/blogs?slug=${slug}`, { cache: 'no-store' });
+    const blog: Blog = await res.json();
+
+    if (!blog) return { title: "Blog Not Found" };
+
+    return {
+        title: `${blog.meta_title || blog.title} | DigiTech`,
+        description: blog.meta_description || blog.short_description || "Read more on DigiTech.",
+        openGraph: {
+            title: blog.title,
+            description: blog.short_description,
+            images: blog.image_url ? [{ url: blog.image_url }] : [],
+        }
+    }
 }
 
-export default async function BlogDetailPage(props: { params: Promise<{ id: string }> }) {
-    const params = await props.params;
-    const blogId = params.id
+export default async function BlogDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
+    
+    // Fetch blog from internal API
+    const res = await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/blogs?slug=${slug}`, { 
+        cache: 'no-store' 
+    });
+    
+    if (!res.ok) notFound();
+    const blog: Blog = await res.json();
 
-    // Find blog locally for SSR speed instead of calling own API during build
-    const blog = blogsData.find((b) => b.id === blogId)
-
-    if (!blog) notFound()
+    // Fallbacks for fields not in current DB schema
+    const displayDate = format(new Date(blog.created_at), "MMM dd, yyyy")
+    const displayCategory = "Tech & Innovation"
+    const displayReadTime = "5 min read"
+    const displayAuthor = {
+        name: "DigiTech Admin",
+        avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=100",
+        role: "Editor-in-Chief"
+    }
 
     return (
         <main className="min-h-screen bg-slate-50 dark:bg-[#030308] text-slate-900 dark:text-white selection:bg-pink-500/30 overflow-hidden relative">
@@ -39,10 +65,10 @@ export default async function BlogDetailPage(props: { params: Promise<{ id: stri
 
                     <div className="flex items-center gap-4 mb-6">
                         <span className="px-4 py-1.5 text-xs font-black tracking-widest text-pink-600 dark:text-pink-400 uppercase border border-pink-500/20 rounded-full bg-pink-500/10 backdrop-blur">
-                            {blog.category}
+                            {displayCategory}
                         </span>
                         <span className="text-slate-500 dark:text-zinc-500 text-sm font-semibold flex items-center gap-2">
-                            {blog.date} <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-zinc-600" /> {blog.readTime}
+                            {displayDate} <span className="w-1 h-1 rounded-full bg-slate-300 dark:bg-zinc-600" /> {displayReadTime}
                         </span>
                     </div>
 
@@ -51,10 +77,10 @@ export default async function BlogDetailPage(props: { params: Promise<{ id: stri
                     </h1>
 
                     <div className="flex items-center gap-4 pt-4 border-t border-slate-200 dark:border-white/10">
-                        <img src={blog.author.avatar} alt={blog.author.name} className="w-12 h-12 rounded-full object-cover ring-2 ring-white dark:ring-zinc-800" />
+                        <img src={displayAuthor.avatar} alt={displayAuthor.name} className="w-12 h-12 rounded-full object-cover ring-2 ring-white dark:ring-zinc-800" />
                         <div>
-                            <p className="font-bold text-slate-900 dark:text-white">{blog.author.name}</p>
-                            <p className="text-sm font-medium text-slate-500 dark:text-zinc-400">{blog.author.role}</p>
+                            <p className="font-bold text-slate-900 dark:text-white">{displayAuthor.name}</p>
+                            <p className="text-sm font-medium text-slate-500 dark:text-zinc-400">{displayAuthor.role}</p>
                         </div>
                     </div>
                 </header>
@@ -63,8 +89,8 @@ export default async function BlogDetailPage(props: { params: Promise<{ id: stri
                 <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto mb-16 lg:mb-24">
                     <div className="w-full aspect-[21/9] rounded-[2rem] overflow-hidden border border-slate-200/50 dark:border-white/10 shadow-2xl relative">
                         <img
-                            src={blog.coverImage}
-                            alt={blog.title}
+                            src={blog.image_url || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1200"}
+                            alt={blog.image_alt || blog.title}
                             className="w-full h-full object-cover"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent pointer-events-none" />
@@ -98,13 +124,13 @@ export default async function BlogDetailPage(props: { params: Promise<{ id: stri
                     {/* Rich Text Body */}
                     <div className="flex-1 text-lg sm:text-xl text-slate-700 dark:text-zinc-300 font-medium leading-[1.8] space-y-8 tracking-tight">
                         <p className="text-xl sm:text-2xl font-semibold italic text-slate-900 dark:text-white border-l-4 border-pink-500 pl-6 mb-12">
-                            {blog.excerpt}
+                            {blog.short_description}
                         </p>
 
                         {/* Render HTML content safely */}
                         <div
                             className="prose-container"
-                            dangerouslySetInnerHTML={{ __html: blog.content }}
+                            dangerouslySetInnerHTML={{ __html: blog.content || "" }}
                         />
                     </div>
                 </div>
@@ -153,3 +179,4 @@ export default async function BlogDetailPage(props: { params: Promise<{ id: stri
         </main>
     )
 }
+
