@@ -11,6 +11,12 @@ type Metadata = {
     description: string;
     keywords: string;
     openGraph: OpenGraph;
+    alternates?: {
+        canonical: string;
+        languages?: {
+            "en-IN": string;
+        };
+    };
 };
 
 export const siteMetadata: Record<string, Metadata> = {
@@ -27,6 +33,12 @@ export const siteMetadata: Record<string, Metadata> = {
             url: `${process.env.APP_URL}`,
             type: "website",
         },
+        alternates: {
+            canonical: `${process.env.APP_URL}`,
+            languages: {
+                "en-IN": `${process.env.APP_URL}`,
+            },
+        },
     },
     about: {
         title: "About DigiTech - Expert Digital Marketing Solutions",
@@ -40,6 +52,9 @@ export const siteMetadata: Record<string, Metadata> = {
                 "Scale your business with DigiTech’s expert digital marketing strategies. Trusted by 1500+ businesses.",
             url: `${process.env.APP_URL}/about`,
             type: "website",
+        },
+        alternates: {
+            canonical: `${process.env.APP_URL}/about`,
         },
     },
 
@@ -56,6 +71,9 @@ export const siteMetadata: Record<string, Metadata> = {
             url: `${process.env.APP_URL}/services`,
             type: "website",
         },
+        alternates: {
+            canonical: `${process.env.APP_URL}/services`,
+        },
     },
 
     contact: {
@@ -70,6 +88,9 @@ export const siteMetadata: Record<string, Metadata> = {
                 "Reach out to DigiTech and get expert guidance for your business growth.",
             url: `${process.env.APP_URL}/contact`,
             type: "website",
+        },
+        alternates: {
+            canonical: `${process.env.APP_URL}/contact`,
         },
     },
 
@@ -86,6 +107,9 @@ export const siteMetadata: Record<string, Metadata> = {
             url: `${process.env.APP_URL}/blogs`,
             type: "website",
         },
+        alternates: {
+            canonical: `${process.env.APP_URL}/blogs`,
+        },
     },
 
     portfolio: {
@@ -100,6 +124,9 @@ export const siteMetadata: Record<string, Metadata> = {
                 "See how DigiTech has helped businesses achieve real growth with digital marketing.",
             url: `${process.env.APP_URL}/portfolio`,
             type: "website",
+        },
+        alternates: {
+            canonical: `${process.env.APP_URL}/portfolio`,
         },
     },
 }

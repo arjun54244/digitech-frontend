@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://digitech-frontend.vercel.app/sitemap.xml
+
+# Site Information
+Name: DigiTech
+Description: Digital marketing agency providing SEO, social media, branding, and performance marketing services.
+
+# Preferred Content
+Preferred:
+- /services/
+- /blog/
+
+# Contact
+Contact: https://digitech-frontend.vercel.app/contact
