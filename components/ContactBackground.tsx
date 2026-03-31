@@ -274,6 +274,7 @@
 // }
 
 // export default ContactBackground;
+"use client"
 
 import { useEffect, useRef } from "react"
 import * as THREE from "three"
@@ -286,23 +287,15 @@ function ContactBackground() {
     if (!canvas) return
     const container = canvas.parentElement!
 
-    // ⚡ Optimized renderer
-    const renderer = new THREE.WebGLRenderer({
-      canvas,
-      antialias: false, // ❌ disable (big perf gain)
-      powerPreference: "high-performance",
-    })
-
-    renderer.setClearColor(0x040814, 1)
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: "high-performance" })
+    renderer.setClearColor(0x040e1a, 1)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
 
     const scene = new THREE.Scene()
     const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 200)
     camera.position.set(0, 0, 9)
-
     const clock = new THREE.Clock()
 
-    // Resize
     const resize = () => {
       const w = container.clientWidth || 900
       const h = container.clientHeight || 600
@@ -313,86 +306,59 @@ function ContactBackground() {
     resize()
     window.addEventListener("resize", resize)
 
-    // ⭐ Reduced stars
+    // ⭐ Stars — sky-blue tints
     const starN = 1200
     const sGeo = new THREE.BufferGeometry()
     const sP = new Float32Array(starN * 3)
     const sC = new Float32Array(starN * 3)
-
     for (let i = 0; i < starN; i++) {
       sP[i * 3] = (Math.random() - 0.5) * 80
       sP[i * 3 + 1] = (Math.random() - 0.5) * 80
       sP[i * 3 + 2] = (Math.random() - 0.5) * 80
-
-      const c = new THREE.Color().setHSL(0.6, 0.6, 0.8)
+      // Mix sky-blue and green hues randomly
+      const hue = Math.random() < 0.5 ? 0.55 : 0.38 // sky : green
+      const c = new THREE.Color().setHSL(hue, 0.7, 0.75)
       sC[i * 3] = c.r
       sC[i * 3 + 1] = c.g
       sC[i * 3 + 2] = c.b
     }
-
     sGeo.setAttribute("position", new THREE.BufferAttribute(sP, 3))
     sGeo.setAttribute("color", new THREE.BufferAttribute(sC, 3))
-
-    const stars = new THREE.Points(
-      sGeo,
-      new THREE.PointsMaterial({
-        size: 0.07,
-        vertexColors: true,
-        transparent: true,
-        opacity: 0.7,
-      })
-    )
-
+    const stars = new THREE.Points(sGeo, new THREE.PointsMaterial({ size: 0.07, vertexColors: true, transparent: true, opacity: 0.7 }))
     scene.add(stars)
 
-    // 🌌 Mid cloud (optimized)
+    // 🌿 Mid cloud — green tint
     const midN = 900
     const mGeo = new THREE.BufferGeometry()
     const mP = new Float32Array(midN * 3)
-
     for (let i = 0; i < midN; i++) {
       const t = Math.random() * Math.PI * 2
       const r = 3 + Math.random() * 2
-
       mP[i * 3] = Math.cos(t) * r
       mP[i * 3 + 1] = (Math.random() - 0.5) * 2
       mP[i * 3 + 2] = Math.sin(t) * r
     }
-
     mGeo.setAttribute("position", new THREE.BufferAttribute(mP, 3))
-
-    const midPts = new THREE.Points(
-      mGeo,
-      new THREE.PointsMaterial({
-        size: 0.04,
-        color: 0x64b5f6,
-        transparent: true,
-        opacity: 0.5,
-      })
-    )
-
+    const midPts = new THREE.Points(mGeo, new THREE.PointsMaterial({ size: 0.04, color: 0x22c55e, transparent: true, opacity: 0.45 }))
     scene.add(midPts)
 
-    // 🔵 Core (lighter)
+    // 🔵 Core — deep teal/green
     const core = new THREE.Mesh(
-      new THREE.IcosahedronGeometry(1, 1), // reduced detail
-      new THREE.MeshStandardMaterial({
-        color: 0x0d1a4a,
-        emissive: 0x2235a0,
-        emissiveIntensity: 0.5,
-      })
+      new THREE.IcosahedronGeometry(1, 1),
+      new THREE.MeshStandardMaterial({ color: 0x042a1a, emissive: 0x0d6630, emissiveIntensity: 0.55 })
     )
-
     scene.add(core)
 
-    // 💡 Lights (reduced)
-    scene.add(new THREE.AmbientLight(0xffffff, 0.4))
+    // 💡 Lights
+    scene.add(new THREE.AmbientLight(0x5c1510, 0.4))
+    const skyLight = new THREE.PointLight(0x0ea5e9, 3, 20)   // sky blue
+    skyLight.position.set(5, 5, 5)
+    scene.add(skyLight)
+    const orangeLight = new THREE.PointLight(0xf97316, 1.5, 18) // orange accent
+    orangeLight.position.set(-6, -3, 4)
+    scene.add(orangeLight)
 
-    const light = new THREE.PointLight(0x64b5f6, 3, 20)
-    light.position.set(5, 5, 5)
-    scene.add(light)
-
-    // 🖱️ Mouse (passive)
+    // 🖱️ Mouse
     const mouse = { x: 0, y: 0 }
     const onMouseMove = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect()
@@ -401,55 +367,40 @@ function ContactBackground() {
     }
     window.addEventListener("mousemove", onMouseMove, { passive: true })
 
-    // 🧠 Pause when tab inactive
     let isVisible = true
-    document.addEventListener("visibilitychange", () => {
-      isVisible = !document.hidden
-    })
+    document.addEventListener("visibilitychange", () => { isVisible = !document.hidden })
 
-    // 🎯 FPS CAP (important)
     let lastTime = 0
-    const FPS = 60
-    const interval = 1000 / FPS
-
+    const interval = 1000 / 60
     let frameId: number
 
     const animate = (time: number) => {
       frameId = requestAnimationFrame(animate)
-
       if (!isVisible) return
       if (time - lastTime < interval) return
       lastTime = time
-
       const t = clock.getElapsedTime()
 
       stars.rotation.y = t * 0.02
       midPts.rotation.y = t * 0.08
-
       core.rotation.y = t * 0.4
       core.scale.setScalar(1 + Math.sin(t) * 0.03)
 
       camera.position.x += (mouse.x - camera.position.x) * 0.05
       camera.position.y += (mouse.y - camera.position.y) * 0.05
-
       camera.lookAt(0, 0, 0)
-
       renderer.render(scene, camera)
     }
-
     animate(0)
 
-    // 🧹 Cleanup
     return () => {
       cancelAnimationFrame(frameId)
       window.removeEventListener("resize", resize)
       window.removeEventListener("mousemove", onMouseMove)
-
       scene.traverse((obj: any) => {
         if (obj.geometry) obj.geometry.dispose()
         if (obj.material) obj.material.dispose()
       })
-
       renderer.dispose()
     }
   }, [])
@@ -457,12 +408,7 @@ function ContactBackground() {
   return (
     <canvas
       ref={canvasRef}
-      style={{
-        position: "absolute",
-        inset: 0,
-        width: "100%",
-        height: "100%",
-      }}
+      style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
     />
   )
 }

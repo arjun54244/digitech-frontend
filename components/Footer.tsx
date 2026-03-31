@@ -1,4 +1,3 @@
-"use client"
 
 import React, { useRef, useEffect } from "react"
 import gsap from "gsap"
@@ -12,6 +11,8 @@ import {
   Twitter,
   Instagram,
   Youtube,
+  Facebook,
+  PaintbrushVertical,
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -21,14 +22,22 @@ import { useSmoothScroll } from "@/hooks/useSmoothScroll"
 import { Boxes } from "@/components/ui/boxes"
 import Link from "next/link"
 import Image from "next/image"
+import { socialMediaLinks } from "@/lib/data/socalmedia"
+import { IconBrandThreads, IconBrandWhatsapp } from "@tabler/icons-react"
+import { FooterAnimations } from "./Footer/FooterAnimations"
+import { ScrollToTop } from "./Footer/ScrollToTop"
 
 gsap.registerPlugin(ScrollTrigger)
 
 const socialLinks = [
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Instagram, href: "#", label: "Instagram" },
-  { icon: Youtube, href: "#", label: "YouTube" },
+  { icon: Instagram, href: socialMediaLinks.instagram, label: "Instagram" },
+  { icon: Linkedin, href: socialMediaLinks.linkedin, label: "LinkedIn" },
+  { icon: Twitter, href: socialMediaLinks.twitter, label: "Twitter" },
+  { icon: Facebook, href: socialMediaLinks.facebook, label: "Facebook" },
+  { icon: Youtube, href: socialMediaLinks.youtube, label: "YouTube" },
+  { icon: PaintbrushVertical, href: socialMediaLinks.pintrust, label: "Pintrust" },
+  { icon: IconBrandWhatsapp, href: socialMediaLinks.whatsapp, label: "Whatsapp" },
+  { icon: IconBrandThreads, href: socialMediaLinks.threads, label: "Threads" },
 ]
 
 const footerLinks = {
@@ -39,64 +48,31 @@ const footerLinks = {
     { name: "Paid Advertising", href: "#" },
   ],
   company: [
-    { name: "About Us", href: "#" },
-    { name: "Case Studies", href: "#" },
-    { name: "Careers", href: "#" },
-    { name: "Contact", href: "#" },
+    { name: "Home", href: "/" },
+    { name: "About Us", href: "/about" },
+    { name: "Services", href: "/services" },
+    { name: "Blogs", href: "/blogs" },
+    { name: "Careers", href: "/careers" },
+    { name: "Contact", href: "/contact" },
   ],
   resources: [
-    { name: "Blog", href: "#" },
-    { name: "Guides", href: "#" },
-    { name: "Tools", href: "#" },
-    { name: "FAQ", href: "#" },
+    { name: "Blog", href: "/blogs" },
+    { name: "Guides", href: "/blogs" },
+    { name: "Tools", href: "/abvout#tools" },
+    { name: "FAQ", href: "/faqs" },
   ],
 }
 
 export const Footer: React.FC = () => {
   const footerRef = useRef<HTMLElement>(null)
   const waveRef = useRef<SVGSVGElement>(null)
-  const { scrollTo } = useSmoothScroll()
-
-  useEffect(() => {
-    const footer = footerRef.current
-    const wave = waveRef.current
-
-    if (footer) {
-      gsap.from(footer.querySelectorAll(".footer-col"), {
-        y: 40,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.12,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: footer,
-          start: "top 90%",
-        },
-      })
-    }
-
-    if (wave) {
-      gsap.to(wave.querySelectorAll("path"), {
-        attr: {
-          d: "M0,64 C200,20 400,100 600,64 C800,28 1000,100 1200,64 L1200,120 L0,120 Z",
-        },
-        duration: 4,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut",
-      })
-    }
-  }, [])
-
-  const handleScrollTop = () => {
-    scrollTo(0, { duration: 1.2 })
-  }
 
   return (
     <footer
       ref={footerRef}
       className="relative overflow-hidden bg-gradient-to-b from-[#326072]/10 via-transparent to-[#326072]/10 dark:from-[#326072]/20 dark:to-[#326072]/20"
     >
+      <FooterAnimations footerRef={footerRef} waveRef={waveRef} />
       <div className="relative flex flex-col items-center justify-center overflow-hidden pt-20">
         {/* Background boxes */}
         <div className="pointer-events-none absolute inset-0 z-10">
@@ -154,28 +130,29 @@ export const Footer: React.FC = () => {
 
                 {/* Contact */}
                 <div className="mt-6 space-y-3 text-sm">
-                  <a className="z-20 flex items-center gap-3 text-muted-foreground transition-all hover:translate-x-1 hover:text-accent">
+                  <a className="z-20 flex items-center gap-3 text-muted-foreground transition-all hover:translate-x-1 hover:text-accent" href="mailto:info@digitechhealthcare.com" aria-label="info@digitechhealthcare.com" >
                     <Mail className="h-5 w-5 text-accent" />
-                    hello@digitech.com
+                    info@digitechhealthcare.com
                   </a>
 
-                  <a className="z-20 flex items-center gap-3 text-muted-foreground transition-all hover:translate-x-1 hover:text-accent">
+                  <a className="z-20 flex items-center gap-3 text-muted-foreground transition-all hover:translate-x-1 hover:text-accent" href="tel:+919220708874" aria-label="+91 9220708874" >
                     <Phone className="h-5 w-5 text-accent" />
-                    +1 (234) 567-890
+                    +91 9220708874
                   </a>
 
-                  <div className="flex items-center gap-3 text-muted-foreground">
+                  <div className="flex items-center gap-3 text-muted-foreground" aria-label="The First Business Brick, B-74, C Block, <br /> Sector 2, Noida, Uttar Pradesh - 201301">
                     <MapPin className="h-5 w-5 text-accent" />
-                    San Francisco, CA
+                    The First Business Brick, B-74, C Block, <br /> Sector 2, Noida, Uttar Pradesh - 201301
                   </div>
                 </div>
 
                 {/* Socials */}
-                <div className="mt-6 flex gap-4">
-                  {socialLinks.map(({ icon: Icon, label }) => (
+                <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-w-xs">
+                  {socialLinks.map(({ icon: Icon, label, href }) => (
                     <a
+                      href={href}
                       key={label}
-                      className="z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-muted-foreground transition-all duration-300 hover:bg-accent hover:text-white hover:shadow-lg hover:shadow-accent/40"
+                      className="z-20 flex h-10 w-10 items-center justify-center  rounded-full border border-white/10 bg-white/5 text-muted-foreground transition-all duration-300 hover:bg-accent shadow-lg shadow-orange-200/40 border-3xl border-orange-200/40 hover:text-orange-500 hover:shadow-lg hover:shadow-orange-500/40 cursor-pointer"
                     >
                       <Icon className="h-5 w-5" />
                     </a>
@@ -193,9 +170,9 @@ export const Footer: React.FC = () => {
                   <ul className="space-y-3">
                     {links.map((link) => (
                       <li key={link.name}>
-                        <a className="z-20 inline-block text-sm text-muted-foreground transition-all hover:translate-x-1 hover:text-accent">
+                        <Link href={link.href} className="z-20 inline-block text-sm text-muted-foreground transition-all hover:translate-x-1 hover:text-accent">
                           {link.name}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -242,13 +219,7 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Scroll to top */}
-        <button
-          aria-label="Scroll to top"
-          onClick={handleScrollTop}
-          className="fixed right-8 bottom-8 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-cyan-500 text-white shadow-lg shadow-orange-500/30 transition-all duration-300 hover:scale-110 hover:shadow-xl hover:shadow-orange-500/50"
-        >
-          <ArrowUp className="h-5 w-5" />
-        </button>
+        <ScrollToTop />
       </div>
     </footer>
   )

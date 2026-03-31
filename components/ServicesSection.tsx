@@ -17,18 +17,18 @@ import {
 import Link from "next/link"
 
 const services = [
-  { title: "Website Development", icon: Globe },
-  { title: "Branding", icon: Palette },
-  { title: "Social Media Marketing", icon: Megaphone },
-  { title: "Search Engine Optimization", icon: Search },
-  { title: "Graphic Design", icon: PenTool },
-  { title: "Marketplace Management", icon: Store },
-  { title: "Online Reputation Management", icon: ShieldCheck },
-  { title: "Video Marketing", icon: Video },
-  { title: "Content Creation", icon: FileText },
-  { title: "Performance Marketing", icon: TrendingUp },
-  { title: "E-commerce Services", icon: ShoppingCart },
-  { title: "WhatsApp & Email Marketing", icon: Mail },
+  { title: "Website Development", icon: Globe, gradient: "from-green-400 via-green-300 to-green-200" },
+  { title: "Branding", icon: Palette, gradient: "from-orange-400 via-orange-300 to-orange-200" },
+  { title: "Social Media Marketing", icon: Megaphone, gradient: "from-yellow-400 via-yellow-300 to-yellow-200" },
+  { title: "Search Engine Optimization", icon: Search, gradient: "from-sky-400 via-sky-300 to-sky-200" },
+  { title: "Graphic Design", icon: PenTool, gradient: "from-green-400 via-green-300 to-green-200" },
+  { title: "Marketplace Management", icon: Store, gradient: "from-orange-400 via-orange-300 to-orange-200" },
+  { title: "Online Reputation Management", icon: ShieldCheck, gradient: "from-yellow-400 via-yellow-300 to-yellow-200" },
+  { title: "Video Marketing", icon: Video, gradient: "from-sky-400 via-sky-300 to-sky-200" },
+  { title: "Content Creation", icon: FileText, gradient: "from-green-400 via-green-300 to-green-200" },
+  { title: "Performance Marketing", icon: TrendingUp, gradient: "from-orange-400 via-orange-300 to-orange-200" },
+  { title: "E-commerce Services", icon: ShoppingCart, gradient: "from-yellow-400 via-yellow-300 to-yellow-200" },
+  { title: "WhatsApp & Email Marketing", icon: Mail, gradient: "from-sky-400 via-sky-300 to-sky-200" },
 ]
 
 export default function ServicesSection() {
@@ -41,7 +41,7 @@ export default function ServicesSection() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-4xl md:text-5xl font-bold text-[#dfa21f]"
+          className="text-4xl md:text-5xl font-bold text-gradient bg-clip-text text-transparent bg-gradient-to-l from-orange-400 via-yellow-400 to-green-400"
         >
           Our Digital Services
         </motion.h2>
@@ -50,7 +50,7 @@ export default function ServicesSection() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="mt-4 text-muted-foreground max-w-xl mx-auto"
+          className="mt-4 text-muted-foreground max-w-xl mx-auto text-lg"
         >
           We craft powerful digital experiences that help brands grow,
           connect with audiences, and dominate the digital landscape.
@@ -59,41 +59,36 @@ export default function ServicesSection() {
 
       {/* Services Grid */}
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-
         {services.map((service, index) => {
           const Icon = service.icon
-
           return (
             <motion.div
               key={service.title}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
-              whileHover={{ y: -8 }}
-              className="group relative rounded-2xl border border-white/10 bg-white/50 dark:bg-white/5 backdrop-blur-xl p-6 shadow-lg hover:shadow-xl transition-all"
+              transition={{ delay: index * 0.05, duration: 0.5 }}
+              whileHover={{ y: -10 }}
+              className="group relative rounded-3xl border border-gray-200/10 bg-white/30 dark:bg-white/5 backdrop-blur-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden"
             >
+              {/* Glow background circle */}
+              <div className={`absolute -top-6 -right-6 h-32 w-32 rounded-full blur-3xl opacity-30 bg-gradient-to-br ${service.gradient} -z-10`}></div>
+              <div className={`absolute -bottom-6 -left-6 h-32 w-32 rounded-full blur-3xl opacity-30 bg-gradient-to-tr ${service.gradient} -z-10`}></div>
 
-              {/* Glow */}
-              <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition bg-gradient-to-br from-[#326072]/20 via-transparent to-[#326072]/20" />
-
-              <div className="relative z-10">
-
+              <div className="relative z-10 text-center">
                 {/* Icon */}
-                <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-[#326072]/10 mb-5">
-                  <Icon className="w-6 h-6 text-[#dfa21f]" />
+                <div className={`w-14 h-14 flex items-center justify-center rounded-xl mb-5 bg-gradient-to-br ${service.gradient} shadow-inner`}>
+                  <Icon className="w-7 h-7 text-white drop-shadow-md" />
                 </div>
 
                 {/* Title */}
-                <h3 className="text-lg font-semibold">
-                    {/* <Link href={`/services/${service.title.toLowerCase().replace(/\s+/g, "-")}`}> */}
-                    <Link href='/'>
-                  {service.title}
-                    </Link>
+                <h3 className="text-lg sm:text-xl font-semibold">
+                  <Link href="/">
+                    {service.title}
+                  </Link>
                 </h3>
 
-                {/* Hover Line */}
-                <div className="mt-4 w-0 group-hover:w-10 transition-all h-[2px] bg-[#326072]" />
-
+                {/* Hover line */}
+                <div className={`mt-4 w-0 group-hover:w-12 transition-all h-1 rounded bg-gradient-to-r ${service.gradient} mx-auto`} />
               </div>
             </motion.div>
           )

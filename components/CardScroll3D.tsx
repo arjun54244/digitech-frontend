@@ -20,8 +20,8 @@ type Props = {
 export default function CardScroll3D({ className }: Props) {
   return (
     <Canvas
-     dpr={[1, 1.5]}
-  frameloop="demand"
+      dpr={[1, 1.5]}
+      frameloop="demand"
       camera={{ position: [0, 1, 50], fov: 20 }}
       className={className}
       onWheel={(e) => e.stopPropagation()}
