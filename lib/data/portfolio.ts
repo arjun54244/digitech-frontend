@@ -2,11 +2,12 @@ export interface PortfolioProject {
     id: string
     title: string
     category: string
-    image: string
     description: string
     techStack: string[]
     gallery: string[]
     link: string
+    image?: string
+    type?: "pdf" | "website"
 }
 
 export const portfolioData: PortfolioProject[] = [

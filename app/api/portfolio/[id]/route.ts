@@ -1,18 +1,24 @@
-import { NextResponse } from "next/server"
-import { portfolioData } from "@/lib/data/portfolio"
+import { NextRequest, NextResponse } from "next/server";
+import { sql } from "@/lib/db";
 
-export async function GET(
-    request: Request,
-    { params }: { params: Promise<{ id: string }> }
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: { id: string } }
 ) {
-    const resolvedParams = await params
-    await new Promise((resolve) => setTimeout(resolve, 100)) // simulate network
-
-    const project = portfolioData.find((p) => p.id === resolvedParams.id)
-
-    if (!project) {
-        return NextResponse.json({ error: "Project not found" }, { status: 404 })
+  try {
+    const { id } = await params;
+    
+    if (!id) {
+        return NextResponse.json({ error: "Missing ID" }, { status: 400 });
     }
 
-    return NextResponse.json(project)
+    await sql`
+      DELETE FROM portfolios WHERE id = ${id}
+    `;
+
+    return NextResponse.json({ success: true });
+  } catch (error: any) {
+    console.error("Delete portfolio error:", error);
+    return NextResponse.json({ error: "Failed to delete portfolio" }, { status: 500 });
+  }
 }

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, ArrowLeft } from "lucide-react";
+import { Loader2, ArrowLeft, Save } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -27,14 +27,13 @@ import RichTextEditor from "@/components/admin/RichTextEditor";
 export default function CreateServicePage() {
   const router = useRouter();
   const createMutation = useCreateService();
-  const [preview, setPreview] = useState<string | null>(null);
 
   const {
     register,
     handleSubmit,
     watch,
     setValue,
-    formState: { errors, dirtyFields },
+    formState: { errors, dirtyFields, isSubmitting },
   } = useForm({
     resolver: zodResolver(serviceSchema),
     defaultValues: {
@@ -42,7 +41,6 @@ export default function CreateServicePage() {
       slug: "",
       short_description: "",
       content: "",
-      image_url: "",
       image_alt: "",
       meta_title: "",
       meta_description: "",
@@ -51,7 +49,6 @@ export default function CreateServicePage() {
   });
 
   const title = watch("title");
-  const imageUrl = watch("image_url");
 
   // Auto-generate slug from title
   useEffect(() => {
@@ -64,17 +61,24 @@ export default function CreateServicePage() {
     }
   }, [title, setValue, dirtyFields.slug]);
 
-  // Handle preview for image URL
-  useEffect(() => {
-    if (imageUrl) {
-      setPreview(imageUrl);
-    } else {
-      setPreview(null);
-    }
-  }, [imageUrl]);
+  async function onSubmit(values: any) {
+    const formData = new FormData();
+    
+    // Append all fields to FormData
+    Object.keys(values).forEach(key => {
+        if (key === "meta_keywords") {
+            formData.append(key, values[key].join(','));
+        } else if (key !== "file") {
+            formData.append(key, values[key] || "");
+        }
+    });
 
-  async function onSubmit(values: ServiceSchema) {
-    createMutation.mutate(values, {
+    // Append the file if it exists
+    if (values.file) {
+        formData.append("file", values.file);
+    }
+
+    createMutation.mutate(formData, {
       onSuccess: () => {
         router.push("/admin/services");
       },
@@ -87,14 +91,16 @@ export default function CreateServicePage() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Link href="/admin/services">
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" className="rounded-full">
               <ArrowLeft className="h-5 w-5" />
             </Button>
           </Link>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Create Service</h1>
+            <h1 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-rose-600">
+                Create Service
+            </h1>
             <p className="text-muted-foreground text-sm">
-              Add a new service offering to your business 🚀
+                Add a new service offering to your business 🚀
             </p>
           </div>
         </div>
@@ -102,10 +108,11 @@ export default function CreateServicePage() {
         {/* Desktop Publish Button */}
         <Button
           onClick={handleSubmit(onSubmit)}
-          disabled={createMutation.isPending}
-          className="hidden md:flex shadow-lg"
+          disabled={createMutation.isPending || isSubmitting}
+          className="hidden md:flex shadow-lg shadow-orange-500/20"
         >
           {createMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          <Save className="mr-2 h-4 w-4" />
           Publish 🚀
         </Button>
       </div>
@@ -114,8 +121,8 @@ export default function CreateServicePage() {
         {/* LEFT SIDE */}
         <div className="lg:col-span-2 space-y-8">
           {/* Basic Info */}
-          <Card className="p-6 space-y-5 rounded-2xl shadow-md border border-border/50">
-            <h2 className="text-lg font-semibold">📝 Service Details</h2>
+          <Card className="p-6 space-y-5 rounded-2xl shadow-md border border-border/50 bg-card/50 backdrop-blur-sm">
+            <h2 className="text-lg font-semibold flex items-center gap-2">📝 Service Details</h2>
 
             <FieldGroup>
               <Field>
@@ -149,6 +156,7 @@ export default function CreateServicePage() {
                     id="short_description"
                     placeholder="Brief overview of the service"
                     {...register("short_description")}
+                    className="min-h-[100px]"
                   />
                   <FieldError errors={[errors.short_description]} />
                 </FieldContent>
@@ -160,6 +168,7 @@ export default function CreateServicePage() {
                   <RichTextEditor
                     value={watch("content") || ""}
                     onChange={(val: string) => setValue("content", val, { shouldValidate: true })}
+                    placeholder="Describe your service and process..."
                   />
                   <FieldError errors={[errors.content]} />
                 </FieldContent>
@@ -168,8 +177,8 @@ export default function CreateServicePage() {
           </Card>
 
           {/* SEO Section */}
-          <Card className="p-6 space-y-5 rounded-2xl shadow-md border border-border/50">
-            <h2 className="text-lg font-semibold">🚀 SEO Settings</h2>
+          <Card className="p-6 space-y-5 rounded-2xl shadow-md border border-border/50 bg-card/50 backdrop-blur-sm">
+            <h2 className="text-lg font-semibold flex items-center gap-2">🚀 SEO Settings</h2>
 
             <FieldGroup>
               <Field>
@@ -191,6 +200,7 @@ export default function CreateServicePage() {
                     id="meta_description"
                     placeholder="SEO friendly description"
                     {...register("meta_description")}
+                    className="min-h-[100px]"
                   />
                   <FieldError errors={[errors.meta_description]} />
                 </FieldContent>
@@ -202,6 +212,7 @@ export default function CreateServicePage() {
                   <Input
                     id="meta_keywords"
                     placeholder="web, development, nextjs"
+                    defaultValue={watch("meta_keywords")?.join(', ')}
                     onChange={(e) => {
                       const tags = e.target.value.split(",").map(s => s.trim()).filter(Boolean);
                       setValue("meta_keywords", tags, { shouldValidate: true });
@@ -217,24 +228,38 @@ export default function CreateServicePage() {
         {/* RIGHT SIDE */}
         <div className="space-y-6">
           {/* Service Image */}
-          <ImageUpload setValue={setValue} />
+          <Card className="p-1 rounded-2xl shadow-md border border-border/50 overflow-hidden">
+             <ImageUpload setValue={setValue} />
+          </Card>
+
+          <Field>
+            <FieldLabel htmlFor="image_alt">Image Alt Text</FieldLabel>
+            <FieldContent>
+              <Input
+                id="image_alt"
+                placeholder="Accessible description"
+                {...register("image_alt")}
+              />
+              <FieldError errors={[errors.image_alt]} />
+            </FieldContent>
+          </Field>
 
           {/* Quick Tips */}
-          <Card className="p-6 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border border-border/50">
-            <h3 className="font-semibold mb-2">💡 Service Tips</h3>
-            <ul className="text-sm text-muted-foreground space-y-1">
-              <li>• Focus on the benefit to the client</li>
-              <li>• Use a clean, simple icon</li>
-              <li>• Mention your specific tech stack</li>
-              <li>• Highlight your unique process</li>
+          <Card className="p-6 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-purple-500/5 border border-indigo-500/20">
+            <h3 className="font-semibold mb-2 flex items-center gap-2">💡 Service Tips</h3>
+            <ul className="text-sm text-muted-foreground space-y-2">
+              <li className="flex gap-2"><span>•</span> <span>Focus on the benefit to the client.</span></li>
+              <li className="flex gap-2"><span>•</span> <span>Highlight your unique process step-by-step.</span></li>
+              <li className="flex gap-2"><span>•</span> <span>Mention your specific tech stack or tools.</span></li>
+              <li className="flex gap-2"><span>•</span> <span>Include clear Call to Actions in the content.</span></li>
             </ul>
           </Card>
 
           {/* Mobile Publish Button */}
           <Button
             type="submit"
-            disabled={createMutation.isPending}
-            className="w-full md:hidden"
+            disabled={createMutation.isPending || isSubmitting}
+            className="w-full md:hidden shadow-lg shadow-orange-500/20"
           >
             {createMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Publish 🚀
@@ -244,4 +269,3 @@ export default function CreateServicePage() {
     </div>
   );
 }
-

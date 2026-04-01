@@ -15,6 +15,7 @@ const navLinks = [
   { name: "About", href: "/about" },
   { name: "Services", href: "/services" },
   { name: "Portfolio", href: "/portfolio" },
+  { name: "Gallery", href: "/gallery" },
   { name: "Blogs", href: "/blogs" },
   { name: "Contact", href: "/contact" },
 ]
@@ -50,8 +51,8 @@ export const Navbar: React.FC = () => {
       <nav
         ref={navRef}
         className={`fixed top-0 right-0 left-0 z-50 transition-all duration-500 ${isScrolled
-            ? "border-b border-border/30 bg-background/80 py-4 backdrop-blur-xl"
-            : "bg-transparent py-6"
+          ? "border-b border-border/30 bg-background/80 py-4 backdrop-blur-xl"
+          : "bg-transparent py-6"
           }`}
       >
         <div className="container mx-auto px-6">

@@ -66,3 +66,40 @@ CREATE OR REPLACE TRIGGER blogs_updated_at
 CREATE OR REPLACE TRIGGER services_updated_at
   BEFORE UPDATE ON services
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- Portfolios (PDFs)
+CREATE TABLE IF NOT EXISTS portfolios (
+  id            SERIAL PRIMARY KEY,
+  name          TEXT NOT NULL,
+  pdf_path      TEXT NOT NULL,
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Projects (Best Websites)
+CREATE TABLE IF NOT EXISTS projects (
+  id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  title         TEXT NOT NULL,
+  description   TEXT,
+  image_url     TEXT,
+  project_url   TEXT,
+  category      TEXT,
+  tech_stack    TEXT[],
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Gallery
+CREATE TABLE IF NOT EXISTS gallery (
+  id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  title         TEXT,
+  image_url     TEXT NOT NULL,
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Testimonials
+CREATE TABLE IF NOT EXISTS testimonials (
+  id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name          TEXT NOT NULL,
+  message       TEXT NOT NULL,
+  avatar_url    TEXT,
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);

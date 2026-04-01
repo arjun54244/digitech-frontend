@@ -29,11 +29,10 @@ export function useService(id: string | null) {
 export function useCreateService() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: async (data: any) => {
+    mutationFn: async (data: FormData) => {
       const res = await fetch("/api/services", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: data,
       })
       if (!res.ok) {
         const err = await res.json()
@@ -54,11 +53,10 @@ export function useCreateService() {
 export function useUpdateService(id: string) {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: async (data: any) => {
+    mutationFn: async (data: FormData) => {
       const res = await fetch(`/api/services/${id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: data,
       })
       if (!res.ok) {
         const err = await res.json()

@@ -1,7 +1,4 @@
-import './css/flaticon.css';
-import './css/magnific-popup.css';
-import './css/main.css';
-import './css/nice-select.css';
+import './css/final.css';
 export default function DashboardLayout({
   children,
 }: {

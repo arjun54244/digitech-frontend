@@ -1,4 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { writeFile } from "fs/promises";
+import { join } from "path";
 import { sql } from "@/lib/db";
 import { serviceSchema } from "@/lib/schemas/service";
 
@@ -25,26 +27,40 @@ export async function GET(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
-    let body;
+    const formData = await request.formData();
+    
+    // Extract metadata
+    const title = formData.get("title") as string;
+    const slug = formData.get("slug") as string;
+    const short_description = formData.get("short_description") as string;
+    const content = formData.get("content") as string;
+    const image_alt = formData.get("image_alt") as string;
+    const meta_title = formData.get("meta_title") as string;
+    const meta_description = formData.get("meta_description") as string;
+    const meta_keywords_str = formData.get("meta_keywords") as string;
+    const meta_keywords = meta_keywords_str ? meta_keywords_str.split(',') : [];
+    
+    const file = formData.get("file") as File | null;
 
-    try {
-      body = await request.json();
-    } catch {
-      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    if (!title || !slug) {
+      return NextResponse.json({ error: "Title and Slug are required" }, { status: 400 });
     }
 
-    const parsed = serviceSchema.safeParse(body);
+    let image_url = formData.get("existing_image_url") as string || null;
 
-    if (!parsed.success) {
-      return NextResponse.json({ error: parsed.error.flatten() }, { status: 422 });
+    if (file && file.size > 0) {
+      const bytes = await file.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+
+      const filename = `${Date.now()}-${file.name.replace(/\s+/g, "_")}`;
+      const uploadDir = join(process.cwd(), "public", "uploads", "services");
+      const filePath = join(uploadDir, filename);
+
+      await writeFile(filePath, buffer);
+      image_url = `/uploads/services/${filename}`;
     }
-
-    const {
-      title, slug, short_description, content,
-      image_url, image_alt, meta_title, meta_description, meta_keywords,
-    } = parsed.data;
 
     const [{ max }] = await sql`SELECT COALESCE(MAX(sort_order), -1) AS max FROM services`;
 
@@ -55,7 +71,7 @@ export async function POST(request: Request) {
         meta_keywords, sort_order
       ) VALUES (
         ${title}, ${slug}, ${short_description || null}, ${content || null},
-        ${image_url || null}, ${image_alt || null},
+        ${image_url}, ${image_alt || null},
         ${meta_title || null}, ${meta_description || null},
         ${meta_keywords}, ${Number(max) + 1}
       )

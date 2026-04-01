@@ -60,6 +60,16 @@ const data = {
       icon: IconInnerShadowTop,
     },
     {
+      title: "Portfolio",
+      url: "/admin/portfolio",
+      icon: IconInnerShadowTop,
+    },
+    {
+      title: "Testimonials",
+      url: "/admin/testimonials",
+      icon: IconInnerShadowTop,
+    },
+    {
       title: "Team",
       url: "/admin/team",
       icon: IconUsers,

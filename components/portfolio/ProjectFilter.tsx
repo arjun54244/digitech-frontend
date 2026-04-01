@@ -2,9 +2,9 @@
 
 import { motion } from "framer-motion"
 
-export type Category = "All" | "Web App" | "Design" | "3D" | "Marketing"
+export type Category = "All" | "Web App" | "Design" | "3D" | "Marketing" | "PDF Portfolio" | "Website"
 
-const categories: Category[] = ["All", "Web App", "Design", "3D", "Marketing"]
+const categories: Category[] = ["All", "Web App", "Design", "3D", "Marketing", "PDF Portfolio", "Website"]
 
 export function ProjectFilter({
     activeCategory,

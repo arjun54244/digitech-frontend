@@ -12,13 +12,18 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     if (!blog) return { title: "Blog Not Found" };
 
+    const imageUrl = blog.image_url
+        ? (blog.image_url.startsWith('http') ? blog.image_url : `${process.env.APP_URL || 'http://localhost:3000'}${blog.image_url}`)
+        : null;
+
     return {
         title: `${blog.meta_title || blog.title} | DigiTech`,
         description: blog.meta_description || blog.short_description || "Read more on DigiTech.",
+        keywords: blog.meta_keywords || "DigiTech, Technology, Innovation",
         openGraph: {
             title: blog.title || blog.meta_title || "DigiTech",
             description: blog.short_description || blog.meta_description || "Read more on DigiTech.",
-            images: blog.image_url ? [{ url: blog.image_url }] : [],
+            images: imageUrl ? [{ url: imageUrl }] : [],
         }
     }
 }

@@ -14,15 +14,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const res = await fetch(`${process.env.APP_URL || 'http://localhost:3000'}/api/services?slug=${slug}`, { cache: 'no-store' });
     const service: Service = await res.json();
 
-    if (!service) {
-        return {
-            title: "Service Not Found",
-        }
-    }
+    const imageUrl = service.image_url 
+        ? (service.image_url.startsWith('http') ? service.image_url : `${process.env.APP_URL || 'http://localhost:3000'}${service.image_url}`)
+        : null;
 
     return {
         title: `${service.meta_title || service.title} | Our Services`,
         description: service.meta_description || service.short_description || "Explore our professional digital services.",
+        openGraph: {
+            images: imageUrl ? [{ url: imageUrl }] : [],
+        }
     }
 }
 

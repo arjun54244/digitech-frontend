@@ -30,14 +30,14 @@ import { ScrollToTop } from "./Footer/ScrollToTop"
 gsap.registerPlugin(ScrollTrigger)
 
 const socialLinks = [
-  { icon: Instagram, href: socialMediaLinks.instagram, label: "Instagram" },
-  { icon: Linkedin, href: socialMediaLinks.linkedin, label: "LinkedIn" },
-  { icon: Twitter, href: socialMediaLinks.twitter, label: "Twitter" },
-  { icon: Facebook, href: socialMediaLinks.facebook, label: "Facebook" },
-  { icon: Youtube, href: socialMediaLinks.youtube, label: "YouTube" },
-  { icon: PaintbrushVertical, href: socialMediaLinks.pintrust, label: "Pintrust" },
-  { icon: IconBrandWhatsapp, href: socialMediaLinks.whatsapp, label: "Whatsapp" },
-  { icon: IconBrandThreads, href: socialMediaLinks.threads, label: "Threads" },
+  { icon: Instagram, href: socialMediaLinks.instagram, label: "Instagram", color: "#E4405F" },
+  { icon: Linkedin, href: socialMediaLinks.linkedin, label: "LinkedIn", color: "#0077B5" },
+  { icon: Twitter, href: socialMediaLinks.twitter, label: "Twitter", color: "#1DA1F2" },
+  { icon: Facebook, href: socialMediaLinks.facebook, label: "Facebook", color: "#1877F2" },
+  { icon: Youtube, href: socialMediaLinks.youtube, label: "YouTube", color: "#FF0000" },
+  { icon: PaintbrushVertical, href: socialMediaLinks.pintrust, label: "Pintrest", color: "#E60023" },
+  { icon: IconBrandWhatsapp, href: socialMediaLinks.whatsapp, label: "Whatsapp", color: "#25D366" },
+  { icon: IconBrandThreads, href: socialMediaLinks.threads, label: "Threads", color: "#000000" },
 ]
 
 const footerLinks = {
@@ -147,12 +147,16 @@ export const Footer: React.FC = () => {
                 </div>
 
                 {/* Socials */}
-                <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-w-xs">
-                  {socialLinks.map(({ icon: Icon, label, href }) => (
+                <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-w-xs">
+                  {socialLinks.map(({ icon: Icon, label, href, color }) => (
                     <a
                       href={href}
                       key={label}
-                      className="z-20 flex h-10 w-10 items-center justify-center  rounded-full border border-white/10 bg-white/5 text-muted-foreground transition-all duration-300 hover:bg-accent shadow-lg shadow-orange-200/40 border-3xl border-orange-200/40 hover:text-orange-500 hover:shadow-lg hover:shadow-orange-500/40 cursor-pointer"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={label}
+                      className="flex h-10 w-10 items-center justify-center rounded-full bg-white/5 dark:bg-gray-800 transition-all duration-300 hover:scale-110 shadow-lg cursor-pointer"
+                      style={{ color }} // apply the brand color
                     >
                       <Icon className="h-5 w-5" />
                     </a>
@@ -180,7 +184,7 @@ export const Footer: React.FC = () => {
               ))}
 
               {/* Newsletter */}
-              <div className="footer-col lg:col-span-2">
+              {/* <div className="footer-col lg:col-span-2">
                 <h4 className="mb-3 text-lg font-semibold text-white">
                   Subscribe to our newsletter
                 </h4>
@@ -196,7 +200,7 @@ export const Footer: React.FC = () => {
                   />
                   <Button>Subscribe</Button>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             {/* Bottom bar */}

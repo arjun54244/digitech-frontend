@@ -3,7 +3,7 @@
 import { useState, useEffect, use } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, ArrowLeft } from "lucide-react";
+import { Loader2, ArrowLeft, Save } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -29,7 +29,6 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
   const router = useRouter();
   const { data: blog, isLoading } = useBlog(id);
   const updateMutation = useUpdateBlog(id);
-  const [preview, setPreview] = useState<string | null>(null);
 
   const {
     register,
@@ -37,7 +36,7 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
     watch,
     setValue,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(blogSchema),
     defaultValues: {
@@ -45,7 +44,6 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
       slug: "",
       short_description: "",
       content: "",
-      image_url: "",
       image_alt: "",
       meta_title: "",
       meta_description: "",
@@ -61,29 +59,37 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
         slug: blog.slug || "",
         short_description: blog.short_description || "",
         content: blog.content || "",
-        image_url: blog.image_url || "",
         image_alt: blog.image_alt || "",
         meta_title: blog.meta_title || "",
         meta_description: blog.meta_description || "",
         meta_keywords: blog.meta_keywords || [],
       });
-      setPreview(blog.image_url || null);
     }
   }, [blog, reset]);
 
-  const imageUrl = watch("image_url");
+  async function onSubmit(values: any) {
+    const formData = new FormData();
+    
+    // Append all fields to FormData
+    Object.keys(values).forEach(key => {
+        if (key === "meta_keywords") {
+            formData.append(key, values[key].join(','));
+        } else if (key !== "file") {
+            formData.append(key, values[key] || "");
+        }
+    });
 
-  // Handle preview for image URL changes
-  useEffect(() => {
-    if (imageUrl) {
-      setPreview(imageUrl);
-    } else {
-      setPreview(null);
+    // Append the file if it exists
+    if (values.file) {
+        formData.append("file", values.file);
     }
-  }, [imageUrl]);
+    
+    // Track existing image URL
+    if (blog?.image_url) {
+        formData.append("existing_image_url", blog.image_url);
+    }
 
-  async function onSubmit(values: BlogSchema) {
-    updateMutation.mutate(values, {
+    updateMutation.mutate(formData, {
       onSuccess: () => {
         router.push("/admin/blogs");
       },
@@ -93,7 +99,7 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
   if (isLoading) {
     return (
       <div className="flex h-[400px] items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-pink-500" />
+        <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
       </div>
     );
   }
@@ -104,12 +110,14 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Link href="/admin/blogs">
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" className="rounded-full">
               <ArrowLeft className="h-5 w-5" />
             </Button>
           </Link>
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Edit Blog</h1>
+            <h1 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-rose-600">
+                Edit Blog
+            </h1>
             <p className="text-muted-foreground text-sm">
               Update "{blog?.title}" and optimize for SEO 🚀
             </p>
@@ -118,21 +126,22 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
 
         {/* Desktop Update Button */}
         <Button
-          onClick={handleSubmit((values) => onSubmit(values))}
-          disabled={updateMutation.isPending}
-          className="hidden md:flex shadow-lg"
+          onClick={handleSubmit(onSubmit)}
+          disabled={updateMutation.isPending || isSubmitting}
+          className="hidden md:flex shadow-lg shadow-orange-500/20"
         >
           {updateMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          <Save className="mr-2 h-4 w-4" />
           Update Blog 🚀
         </Button>
       </div>
 
-      <form onSubmit={handleSubmit((values) => onSubmit(values))} className="grid lg:grid-cols-3 gap-8">
+      <form onSubmit={handleSubmit(onSubmit)} className="grid lg:grid-cols-3 gap-8">
         {/* LEFT SIDE */}
         <div className="lg:col-span-2 space-y-8">
           {/* Basic Info */}
-          <Card className="p-6 space-y-5 rounded-2xl shadow-md border border-border/50">
-            <h2 className="text-lg font-semibold">📝 Blog Details</h2>
+          <Card className="p-6 space-y-5 rounded-2xl shadow-md border border-border/50 bg-card/50 backdrop-blur-sm">
+            <h2 className="text-lg font-semibold flex items-center gap-2">📝 Blog Details</h2>
 
             <FieldGroup>
               <Field>
@@ -166,6 +175,7 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
                     id="short_description"
                     placeholder="Short SEO-friendly summary"
                     {...register("short_description")}
+                    className="min-h-[100px]"
                   />
                   <FieldError errors={[errors.short_description]} />
                 </FieldContent>
@@ -186,8 +196,8 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
           </Card>
 
           {/* SEO Section */}
-          <Card className="p-6 space-y-5 rounded-2xl shadow-md border border-border/50">
-            <h2 className="text-lg font-semibold">🚀 SEO Settings</h2>
+          <Card className="p-6 space-y-5 rounded-2xl shadow-md border border-border/50 bg-card/50 backdrop-blur-sm">
+            <h2 className="text-lg font-semibold flex items-center gap-2">🚀 SEO Settings</h2>
 
             <FieldGroup>
               <Field>
@@ -209,6 +219,7 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
                     id="meta_description"
                     placeholder="150–160 characters recommended"
                     {...register("meta_description")}
+                    className="min-h-[100px]"
                   />
                   <FieldError errors={[errors.meta_description]} />
                 </FieldContent>
@@ -236,10 +247,24 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
         {/* RIGHT SIDE */}
         <div className="space-y-6">
           {/* Featured Image */}
-          <ImageUpload setValue={setValue} />
+          <Card className="p-1 rounded-2xl shadow-md border border-border/50 overflow-hidden">
+             <ImageUpload setValue={setValue} defaultValue={blog?.image_url} />
+          </Card>
+
+          <Field>
+            <FieldLabel htmlFor="image_alt">Image Alt Text</FieldLabel>
+            <FieldContent>
+              <Input
+                id="image_alt"
+                placeholder="Accessible description"
+                {...register("image_alt")}
+              />
+              <FieldError errors={[errors.image_alt]} />
+            </FieldContent>
+          </Field>
 
           {/* Quick Info */}
-          <Card className="p-6 rounded-2xl bg-muted/20 border border-border/50">
+          <Card className="p-6 rounded-2xl bg-gradient-to-br from-muted/40 to-muted/10 border border-border/50">
             <h3 className="font-semibold mb-2">📊 Content Stats</h3>
             <ul className="text-sm text-muted-foreground space-y-1">
               <li>• Created: {blog && new Date(blog.created_at).toLocaleDateString()}</li>
@@ -251,8 +276,8 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
           {/* Mobile Update Button */}
           <Button
             type="submit"
-            disabled={updateMutation.isPending}
-            className="w-full md:hidden"
+            disabled={updateMutation.isPending || isSubmitting}
+            className="w-full md:hidden shadow-lg shadow-orange-500/20"
           >
             {updateMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Update Blog 🚀
@@ -262,4 +287,3 @@ export default function EditBlogPage({ params }: { params: Promise<{ id: string 
     </div>
   );
 }
-
